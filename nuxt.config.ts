@@ -19,6 +19,11 @@ export default defineNuxtConfig({
      */
     componentDir: './components/ui'
   },
+  eslint: {
+    config: {
+      stylistic: true
+    }
+  },
   runtimeConfig: {
     supabaseDbPassowrd: process.env.SUPABASE_DB_PASSWORD,
     public: {
