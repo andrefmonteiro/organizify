@@ -1,3 +1,3 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@tailwind base;    /* Includes Tailwind's reset/normalize styles */
+@tailwind components;    /* Includes component classes */
+@tailwind utilities;    /* Includes utility classes like flex, p-4, etc. */
