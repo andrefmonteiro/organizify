@@ -13,20 +13,18 @@
       </div>
 
       <!-- Hero Content -->
-      <div class="mx-auto max-w-2xl py-32 sm:py-48 lg:py-56">
+      <div class="mx-auto max-w-2xl py-20 sm:py-24 lg:py-56">
         <div class="text-center">
           <h1 class="text-4xl font-bold tracking-tight text-balance sm:text-6xl">
             <!--
                 tracking-tight: Slightly tighter letter spacing (-0.025em) - makes large text look more refined
                 text-balance: CSS property that balances line lengths for better readability
               -->
-            Never lose your
-            <span class="text-primary">Discover Weekly</span>
-            tracks again
+            Never lose your favorite tracks again
           </h1>
 
           <p class="mt-6 text-lg leading-8 text-muted-foreground">
-            Spotify's Discover Weekly and Release Radar disappear every week.
+            Annoyed by Discover Weekly and Release Radar disappearing every week?
             Organizify automatically saves these tracks to permanent playlists,
             so you never lose track of music you love.
           </p>
@@ -54,7 +52,7 @@
     <!-- How it Works -->
     <div
       id="how-it-works"
-      class="py-24 sm:py-32"
+      class="py-16 sm:py-20"
     >
       <!--
           TODO create components/HowItWorks.vue
@@ -77,6 +75,9 @@
             <p>Step-by-step explanation coming soon...</p>
             <p class="mt-4">
               This section will show how the automatic playlist sync works.
+            </p>
+            <p class="mt-4">
+              Will also show future features.
             </p>
           </div>
         </div>

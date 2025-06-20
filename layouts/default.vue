@@ -17,7 +17,7 @@ const currYear = new Date().getFullYear()
         <!-- Auth Section -->
         <div class="flex items-center">
           <button class="rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90 transition-colors">
-            Login with Spotify
+            Login
           </button>
         </div>
       </nav>
@@ -25,7 +25,7 @@ const currYear = new Date().getFullYear()
 
     <!-- Main Content Area -->
     <main class="relative">
-      <div class="px-6 pt-16 lg:px-8">
+      <div class="px-6 pt-6 lg:px-8">
         <slot />
       </div>
     </main>
