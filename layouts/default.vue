@@ -14,24 +14,6 @@ const currYear = new Date().getFullYear()
           </h1>
         </div>
 
-        <!-- Navigation Links (Desktop) -->
-        <div class="hidden lg:flex lg:items-center lg:gap-x-8">
-          <!--
-              hidden: Sets display: none (hidden by default on mobile)
-             the hidden class only applies to mobile? and on desktop this class isn't applied?
-            -->
-
-          <a
-            href="#how-it-works"
-            class="text-sm font-medium hover:text-primary transition-colors"
-          >
-            <!--
-                transition-colors: Smoothly animates color changes (0.15s duration by default)
-              -->
-            How it Works
-          </a>
-        </div>
-
         <!-- Auth Section -->
         <div class="flex items-center">
           <button class="rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90 transition-colors">
