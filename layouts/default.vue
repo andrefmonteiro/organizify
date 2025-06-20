@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const currYear = ref(new Date().getFullYear())
+const currYear = new Date().getFullYear()
 </script>
 
 <template>
