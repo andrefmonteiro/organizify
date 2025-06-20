@@ -3,7 +3,7 @@
   "style": "new-york",
   "typescript": true,
   "tailwind": {
-    "config": "tailwind.config.js",
+    "config": "",
     "css": "assets/css/tailwind.css",
     "baseColor": "stone",
     "cssVariables": true,
@@ -17,4 +17,4 @@
     "lib": "@/lib"
   },
   "iconLibrary": "lucide"
-} 
+}
