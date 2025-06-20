@@ -1,3 +1,7 @@
+<script setup lang="ts">
+const currYear = ref(new Date().getFullYear())
+</script>
+
 <template>
   <div class="min-h-screen bg-background text-foreground">
     <header class="absolute inset-x-0 top-0 z-50">
@@ -53,7 +57,3 @@
     </footer>
   </div>
 </template>
-
-<script setup lang="ts">
-const currYear = ref(new Date().getFullYear())
-</script>
