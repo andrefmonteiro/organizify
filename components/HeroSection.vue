@@ -25,6 +25,7 @@
             size="lg"
             class="px-8 font-semibold"
             variant="link"
+            as-child
           >
             <a href="#how-it-works">Learn more <span aria-hidden="true">→</span></a>
           </Button>
