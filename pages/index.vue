@@ -34,7 +34,7 @@
               size="lg"
               class="px-8"
             >
-              Connect Spotify Account
+              Try it
             </Button>
 
             <a
@@ -63,19 +63,12 @@
           <h2 class="text-3xl font-bold tracking-tight sm:text-4xl">
             How Organizify Works
           </h2>
-
-          <p class="mt-6 text-lg leading-8 text-muted-foreground">
-            Automatic playlist management that works while you sleep.
-          </p>
         </div>
 
         <!-- Placeholder content -->
         <div class="mx-auto mt-16 max-w-2xl">
           <div class="text-center text-muted-foreground">
             <p>Step-by-step explanation coming soon...</p>
-            <p class="mt-4">
-              This section will show how the automatic playlist sync works.
-            </p>
             <p class="mt-4">
               Will also show future features.
             </p>

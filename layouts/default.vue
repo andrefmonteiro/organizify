@@ -25,7 +25,7 @@ const currYear = new Date().getFullYear()
 
     <!-- Main Content Area -->
     <main class="relative">
-      <div class="px-6 pt-6 lg:px-8">
+      <div class="px-6 pt-12 lg:px-8">
         <slot />
       </div>
     </main>
@@ -33,7 +33,7 @@ const currYear = new Date().getFullYear()
     <footer class="mt-16 border-t border-border bg-muted/5">
       <div class="mx-auto max-w-7xl px-6 py-8 lg:px-8">
         <div class="text-center text-sm text-muted-foreground">
-          <p>&copy; {{ currYear }} Organizify. Never lose your favorite tracks again.</p>
+          <p>&copy; {{ currYear }} Organizify</p>
         </div>
       </div>
     </footer>
