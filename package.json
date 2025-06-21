@@ -12,6 +12,7 @@
   "dependencies": {
     "@nuxt/eslint": "^1.2.0",
     "@tailwindcss/vite": "^4.1.10",
+    "@vueuse/core": "^13.4.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "eslint": "^9.22.0",

@@ -1,10 +1,9 @@
 <template>
-  <div
-    id="how-it-works"
-    class="py-16 sm:py-20"
-  >
-    <div class="mx-auto max-w-7xl px-6 lg:px-8">
-      <div class="mx-auto max-w-2xl text-center">
+  <div id="how-it-works">
+    <Separator />
+
+    <div class="mt-12">
+      <div class="text-center">
         <h2 class="text-3xl font-bold tracking-tight sm:text-4xl">
           How Organizify Works
         </h2>
