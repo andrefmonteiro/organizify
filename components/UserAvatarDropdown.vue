@@ -10,7 +10,7 @@ const isOnDashboard = computed(() => useRoute().path == '/dashboard')
 </script>
 
 <template>
-	<DropdownMenu>
+	<DropdownMenu :modal="false">
 		<DropdownMenuTrigger
 			as-child
 			class="cursor-pointer"
@@ -23,7 +23,10 @@ const isOnDashboard = computed(() => useRoute().path == '/dashboard')
 				<AvatarFallback>AM</AvatarFallback>
 			</Avatar>
 		</DropdownMenuTrigger>
-		<DropdownMenuContent>
+		<DropdownMenuContent
+			align="end"
+			:side-offset="5"
+		>
 			<DropdownMenuItem
 				v-if="!isOnDashboard"
 				class="cursor-pointer"
