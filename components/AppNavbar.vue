@@ -12,7 +12,11 @@
       </div>
 
       <div class="flex items-center">
-        <Button>Login</Button>
+        <NuxtLink
+          to="/dashboard"
+        >
+          <Button class="cursor-pointer">Login</Button>
+        </NuxtLink>
       </div>
     </nav>
   </header>

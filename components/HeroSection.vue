@@ -18,7 +18,7 @@
         <div class="mt-10 flex items-center justify-center gap-x-6">
           <Button
             size="lg"
-            class="px-8"
+            class="px-8 cursor-pointer"
           >
             Try it
           </Button>
