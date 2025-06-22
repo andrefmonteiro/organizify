@@ -4,5 +4,6 @@
 			Dashboard
 		</h2> <!-- dunno if h2 is the most semanctically appropriate -->
 		<Separator />
+		<WeeklyPlaylistsToggle />
 	</div>
 </template>
