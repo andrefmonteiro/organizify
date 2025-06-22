@@ -1,5 +1,10 @@
-<script setup>
-const { isLoggedIn, logIn, logOut } = useAuth()
+<script setup lang="ts">
+const { isLoggedIn, logIn } = useAuth()
+
+const handleLogin = async () => {
+	logIn()
+	await navigateTo('/dashboard')
+}
 </script>
 
 <template>
@@ -16,11 +21,10 @@ const { isLoggedIn, logIn, logOut } = useAuth()
 			<div class="flex items-center">
 				<NuxtLink
 					v-if="!isLoggedIn"
-					to="/dashboard"
 				>
 					<Button
 						class="cursor-pointer"
-						@click="logIn"
+						@click="handleLogin"
 					>Login</Button>
 				</NuxtLink>
 				<UserAvatarDropdown v-else />

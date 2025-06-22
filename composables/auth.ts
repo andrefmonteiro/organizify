@@ -1,5 +1,5 @@
 export const useAuth = () => {
-	const isLoggedIn = useState<boolean>('auth.isLoggedIn', () => true)
+	const isLoggedIn = useState<boolean>('auth.isLoggedIn', () => false)
 
 	const logIn = (): void => {
 		isLoggedIn.value = true
