@@ -5,9 +5,7 @@
 				<NuxtLink
 					to="/"
 				>
-					<h1 class="text-2xl font-bold hover:opacity-80 transition-opacity">
-						Organizify
-					</h1>
+					<div class="text-2xl font-bold hover:opacity-80 transition-opacity">Organizify</div>
 				</NuxtLink>
 			</div>
 
