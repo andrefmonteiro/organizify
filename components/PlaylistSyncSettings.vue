@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { FeatureToggleCard } from '#components'
 </script>
 
 <template>
