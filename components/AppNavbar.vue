@@ -8,7 +8,7 @@ const handleLogin = async () => {
 </script>
 
 <template>
-	<header class="absolute inset-x-0 top-0 z-50 bg-muted">
+	<header class="fixed inset-x-0 top-02 z-50 bg-muted">
 		<nav class="flex items-center justify-between px-6 py-4 lg:px-8">
 			<div class="flex items-center">
 				<NuxtLink
@@ -19,14 +19,14 @@ const handleLogin = async () => {
 			</div>
 
 			<div class="flex items-center">
-				<NuxtLink
+				<Button
 					v-if="!isLoggedIn"
+					class="cursor-pointer h-8 px-4"
+					@click="handleLogin"
 				>
-					<Button
-						class="cursor-pointer"
-						@click="handleLogin"
-					>Login</Button>
-				</NuxtLink>
+					Login
+				</Button>
+
 				<UserAvatarDropdown v-else />
 			</div>
 		</nav>
