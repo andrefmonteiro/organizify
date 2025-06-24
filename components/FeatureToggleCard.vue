@@ -5,7 +5,7 @@ defineProps({
 </script>
 
 <template>
-	<div class="flex flex-row items-center justify-between rounded-lg border p-4">
+	<div class="flex flex-row items-center justify-between p-4 border rounded-lg">
 		<div class="space-y-0.5">
 			<div class="text-base font-medium">
 				{{ title }}

@@ -6,7 +6,7 @@
 			</h3>
 			<div class="space-y-4">
 				<!-- Card 1 -->
-				<div class="flex flex-row items-center justify-between rounded-lg border p-4">
+				<div class="flex flex-row items-center justify-between p-4 border rounded-lg">
 					<div class="space-y-0.5">
 						<div class="text-base font-medium">
 							Discover Weekly
@@ -19,7 +19,7 @@
 				</div>
 
 				<!-- Card 2 -->
-				<div class="flex flex-row items-center justify-between rounded-lg border p-4">
+				<div class="flex flex-row items-center justify-between p-4 border rounded-lg">
 					<div class="space-y-0.5">
 						<div class="text-base font-medium">
 							Release Radar

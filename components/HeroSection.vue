@@ -6,7 +6,7 @@
 					Never lose your favorite tracks again
 				</h1>
 
-				<div class="mt-6 mx-auto max-w-2xl">
+				<div class="max-w-2xl mx-auto mt-6">
 					<p class="text-lg leading-8 text-muted-foreground">
 						Annoyed by Discover Weekly and Release Radar disappearing every week?
 						<br>
@@ -15,7 +15,7 @@
 					</p>
 				</div>
 
-				<div class="mt-10 flex items-center justify-center gap-x-6">
+				<div class="flex items-center justify-center mt-10 gap-x-6">
 					<Button
 						size="lg"
 						class="px-8 cursor-pointer"

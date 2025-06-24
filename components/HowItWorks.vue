@@ -9,7 +9,7 @@
 			</div>
 
 			<!-- Placeholder content -->
-			<div class="mx-auto mt-16 max-w-2xl">
+			<div class="max-w-2xl mx-auto mt-16">
 				<div class="text-center text-muted-foreground">
 					<p>Step-by-step explanation coming soon...</p>
 					<p class="mt-4">
