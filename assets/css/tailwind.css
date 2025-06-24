@@ -124,7 +124,7 @@
     scroll-behavior: smooth;
     /*
 	scrollbar-gutter: stable;
-	*/
 	overflow-y: auto;
+	*/
   }
 }
