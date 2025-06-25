@@ -8,8 +8,8 @@ export default defineNuxtConfig({
 	runtimeConfig: {
 		supabaseDbPassowrd: process.env.SUPABASE_DB_PASSWORD,
 		public: {
-			supabaseUrl: process.env.SUPABASE_URL,
 			supabaseKey: process.env.SUPABASE_KEY,
+			supabaseUrl: process.env.SUPABASE_PROJECT_URL,
 		},
 	},
 	compatibilityDate: '2024-11-01',
