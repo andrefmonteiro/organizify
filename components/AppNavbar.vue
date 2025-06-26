@@ -4,6 +4,8 @@ const { isLoggedIn, signInWithSpotify } = useAuth()
 const handleLogin = async () => {
 	signInWithSpotify()
 }
+
+const logHome = () => console.log('🏠 Going home')
 </script>
 
 <template>
@@ -13,7 +15,10 @@ const handleLogin = async () => {
 				<NuxtLink
 					to="/"
 				>
-					<div class="text-2xl font-bold transition-opacity hover:opacity-80">Organizify</div>
+					<div
+						class="text-2xl font-bold transition-opacity hover:opacity-80"
+						@click="logHome"
+					>Organizify</div>
 				</NuxtLink>
 			</div>
 
