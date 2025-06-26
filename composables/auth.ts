@@ -13,7 +13,7 @@ export const useAuth = () => {
 		setTimeout(async () => {
 			loading.value = true
 			try {
-				await fetchSpotifyProfile()
+				await fetchSpotifyProfile(session)
 			}
 			catch (error) {
 				console.error('Error fetching Spotify profile: ', error)

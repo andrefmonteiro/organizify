@@ -1,19 +1,21 @@
+import type { Session } from '@supabase/supabase-js'
+
 export const useSpotifyProfile = () => {
 	const spotifyProfile = useState('spotify.profile', () => null)
 
-	const fetchSpotifyProfile = async () => {
+	const fetchSpotifyProfile = async (session?: Session) => {
 		try {
-			const { data: { session } } = await supabase.auth.getSession()
-			if (session) {
+			const currSession = session || (await supabase.auth.getSession()).data.session
+			if (currSession) {
 				console.log('ACTUAL SESSION STRUCTURE: ', JSON.stringify(session, null, 2))
 			}
-			if (!session?.provider_token) {
+			if (!currSession?.provider_token) {
 				console.error('No Spotify access token found')
 				throw new Error('No Spotify access token found')
 			}
 			const response = await fetch('https://api.spotify.com/v1/me', {
 				headers: {
-					Authorization: `Bearer ${session.provider_token}`,
+					Authorization: `Bearer ${currSession.provider_token}`,
 				},
 			})
 
