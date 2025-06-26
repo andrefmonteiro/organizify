@@ -2,8 +2,16 @@
 const user = useSupabaseUser()
 const route = useRoute()
 
+const MINIMUM_DISPLAY_TIME = 2500
+const authCompleted = ref(false)
+const minimumTimeElapsed = ref(false)
+
 const oAuthError = computed(() => {
 	return route.query.error || route.query.error_description
+})
+
+const canProceedToDashboard = computed(() => {
+	return authCompleted.value && minimumTimeElapsed.value
 })
 
 onMounted(() => {
@@ -15,19 +23,28 @@ onMounted(() => {
 		return
 	}
 	console.log('Callback looks successful, waiting for user state')
+
+	setTimeout(() => {
+		console.log('min display time elapsed')
+		minimumTimeElapsed.value = true
+	}, MINIMUM_DISPLAY_TIME)
 })
 
 watch(user, (newUser) => {
 	if (newUser) {
 		console.log('🎉 Authentication completed successfully!')
-		console.log('👤 Authenticated user:', newUser.user_metadata?.full_name)
+		authCompleted.value = true
 	}
-	// The user is now authenticated, redirect them to dashboard
-	// We use a small delay to ensure all auth processing is complete
-	setTimeout(() => {
-		navigateTo('/dashboard')
-	}, 500)
 }, { immediate: true })
+
+watch(canProceedToDashboard, (canProceed) => {
+	if (canProceed) {
+		console.log('✅ Both conditions met - redirecting to dashboard')
+		console.log('  Auth completed:', authCompleted.value)
+		console.log('  Minimum time elapsed:', minimumTimeElapsed.value)
+		navigateTo('/dashboard')
+	}
+})
 
 onMounted(() => {
 	setTimeout(() => {
@@ -43,7 +60,7 @@ onMounted(() => {
 	<div class="min-h-screen flex items-center justify-center bg-background">
 		<div class="text-center space-y-6 max-w-md mx-auto p-6">
 			<div
-				v-if="oauthError"
+				v-if="oAuthError"
 				class="space-y-4"
 			>
 				<div class="w-16 h-16 mx-auto bg-destructive/10 rounded-full flex items-center justify-center">
@@ -66,7 +83,7 @@ onMounted(() => {
 						Login Failed
 					</h2>
 					<p class="text-muted-foreground mt-2">
-						{{ oauthError }}
+						{{ oAuthError }}
 					</p>
 				</div>
 				<Button
@@ -92,13 +109,6 @@ onMounted(() => {
 					<p class="text-muted-foreground">
 						Please wait while we connect your Spotify account.
 					</p>
-				</div>
-
-				<div
-					v-if="user"
-					class="text-sm text-muted-foreground"
-				>
-					Welcome, {{ user.user_metadata?.full_name }}! Redirecting to your dashboard...
 				</div>
 			</div>
 		</div>
