@@ -1,4 +1,6 @@
 <script setup>
+const { spotifyProfile } = useSpotifyProfile()
+
 definePageMeta({
 	middleware: 'auth',
 })
@@ -7,7 +9,7 @@ definePageMeta({
 <template>
 	<div>
 		<h1 class="pt-16 pb-6 text-3xl font-bold tracking-tight sm:text-4xl">
-			Dashboard
+			Hello, {{ spotifyProfile.display_name }}
 		</h1>
 		<Separator />
 		<WeeklyPlaylistsToggle />
