@@ -1,4 +1,4 @@
-<script>
+<script setup>
 const { isLoggedIn, signInWithSpotify } = useAuth()
 const handleLogin = async () => {
 	if (!isLoggedIn.value) {

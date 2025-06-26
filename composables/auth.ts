@@ -1,10 +1,16 @@
-import type { User, Session } from '@supabase/supabase-js'
+import { type User, type Session, type AuthChangeEvent, createClient } from '@supabase/supabase-js'
 
 export const useAuth = () => {
 	const isLoggedIn = useState<boolean>('auth.isLoggedIn', () => false)
 	const supabaseUser = useState<User | null>('auth.user', () => null)
 	const loading = useState<boolean>('auth.loading', () => false)
 	const { fetchSpotifyProfile } = useSpotifyProfile()
+
+	const config = useRuntimeConfig()
+	const supabase = createClient(
+		config.public.supabaseUrl,
+		config.public.supabaseKey,
+	)
 
 	const handleUserSignedIn = (session: Session) => {
 		supabaseUser.value = session.user
@@ -24,7 +30,7 @@ export const useAuth = () => {
 		}, 0)
 	}
 
-	supabase.auth.onAuthStateChange(async (event, session) => {
+	supabase.auth.onAuthStateChange((event: AuthChangeEvent, session: Session | null) => {
 		console.log('AUTH EVENT: ', event, session)
 		console.log('SESSION: ', JSON.stringify(session, null, 2))
 
