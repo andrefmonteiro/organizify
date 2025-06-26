@@ -1,3 +1,15 @@
+<script>
+const { isLoggedIn, signInWithSpotify } = useAuth()
+const handleLogin = async () => {
+	if (!isLoggedIn.value) {
+		signInWithSpotify()
+	}
+	else {
+		navigateTo('/dashboard')
+	}
+}
+</script>
+
 <template>
 	<div class="relative isolate">
 		<div class="py-20 sm:py-24 lg:py-32">
@@ -19,6 +31,7 @@
 					<Button
 						size="lg"
 						class="px-8 cursor-pointer"
+						@click="handleLogin"
 					>
 						Try it
 					</Button>
