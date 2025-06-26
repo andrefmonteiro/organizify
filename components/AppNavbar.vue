@@ -6,8 +6,6 @@ const { isAuthenticated, signInWithSpotify } = useAuthActions()
 const handleLogin = async () => {
 	signInWithSpotify()
 }
-
-const logHome = () => console.log('🏠 Going home')
 </script>
 
 <template>
@@ -19,7 +17,6 @@ const logHome = () => console.log('🏠 Going home')
 				>
 					<div
 						class="text-2xl font-bold transition-opacity hover:opacity-80"
-						@click="logHome"
 					>Organizify</div>
 				</NuxtLink>
 			</div>

@@ -19,14 +19,6 @@ export const useSpotifyProfile = () => {
 		return !!profileMetadata.value && !!displayName.value
 	})
 
-	watch(user, (newUser) => {
-		if (newUser?.user_metadata) {
-			console.log('🎵 Simple profile loaded:')
-			console.log('  Display name:', displayName.value)
-			console.log('  Avatar URL:', avatarUrl.value)
-		}
-	}, { immediate: true })
-
 	return {
 		profileMetadata: readonly(profileMetadata),
 		displayName: readonly(displayName),

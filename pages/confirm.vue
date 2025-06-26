@@ -15,35 +15,24 @@ const canProceedToDashboard = computed(() => {
 })
 
 onMounted(() => {
-	console.log('OAuth callback page loaded')
-	console.log('Current route query: ', route.query)
-
 	if (oAuthError.value) {
 		console.error('❌ OAuth error detected: ', oAuthError.value)
 		return
 	}
-	console.log('Callback looks successful, waiting for user state')
 
 	setTimeout(() => {
-		console.log('min display time elapsed')
 		minimumTimeElapsed.value = true
 	}, MINIMUM_DISPLAY_TIME)
 })
 
 watch(user, (newUser) => {
 	if (newUser) {
-		console.log('🎉 Authentication completed successfully!')
 		authCompleted.value = true
 	}
 }, { immediate: true })
 
 watch(canProceedToDashboard, (canProceed) => {
-	if (canProceed) {
-		console.log('✅ Both conditions met - redirecting to dashboard')
-		console.log('  Auth completed:', authCompleted.value)
-		console.log('  Minimum time elapsed:', minimumTimeElapsed.value)
-		navigateTo('/dashboard')
-	}
+	if (canProceed) navigateTo('/dashboard')
 })
 
 onMounted(() => {
