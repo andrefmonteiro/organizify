@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { useAuthActions } from '~/composables/useAuthActions'
 
+const { avatarUrl, displayName } = useSpotifyProfile()
+
 const { signOut } = useAuthActions()
 const handleLogout = async () => {
 	signOut()
@@ -8,6 +10,19 @@ const handleLogout = async () => {
 }
 
 const isOnDashboard = computed(() => useRoute().path == '/dashboard')
+
+const primaryAvatarSrc = computed(() => {
+	return avatarUrl.value || '/default-avatar.webp'
+})
+
+const userInitials = computed(() => {
+	return displayName.value
+		.split(' ')
+		.map(word => word.charAt(0))
+		.join('')
+		.toUpperCase()
+		.slice(0, 2)
+})
 </script>
 
 <template>
@@ -18,10 +33,12 @@ const isOnDashboard = computed(() => useRoute().path == '/dashboard')
 		>
 			<Avatar>
 				<AvatarImage
-					src="/default-avatar.webp"
-					alt="default avatar"
+					:src="primaryAvatarSrc"
+					alt="user's avatar"
 				/>
-				<AvatarFallback>AM</AvatarFallback>
+				<AvatarFallback>
+					{{ userInitials }}
+				</AvatarFallback>
 			</Avatar>
 		</DropdownMenuTrigger>
 		<DropdownMenuContent
