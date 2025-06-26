@@ -8,7 +8,7 @@ export const useSpotifyProfile = () => {
 		try {
 			const currSession = session || (await supabase.auth.getSession()).data.session
 			if (currSession) {
-				console.log('ACTUAL SESSION STRUCTURE: ', JSON.stringify(session, null, 2))
+				console.log('ACTUAL SESSION STRUCTURE: ', JSON.stringify(currSession, null, 2))
 			}
 			if (!currSession?.provider_token) {
 				console.error('No Spotify access token found')
