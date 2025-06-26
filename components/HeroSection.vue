@@ -1,7 +1,10 @@
 <script setup>
-const { isLoggedIn, signInWithSpotify } = useAuth()
+import { useAuthActions } from '~/composables/useAuthActions'
+
+const { isAuthenticated, signInWithSpotify } = useAuthActions()
+
 const handleLogin = async () => {
-	if (!isLoggedIn.value) {
+	if (!isAuthenticated.value) {
 		signInWithSpotify()
 	}
 	else {

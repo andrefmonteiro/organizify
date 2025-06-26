@@ -1,6 +1,7 @@
 <script setup lang="ts">
-const { signOut } = useAuth()
+import { useAuthActions } from '~/composables/useAuthActions'
 
+const { signOut } = useAuthActions()
 const handleLogout = async () => {
 	signOut()
 	await navigateTo('/')

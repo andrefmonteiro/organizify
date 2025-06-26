@@ -1,5 +1,7 @@
 <script setup lang="ts">
-const { isLoggedIn, signInWithSpotify } = useAuth()
+import { useAuthActions } from '~/composables/useAuthActions'
+
+const { isAuthenticated, signInWithSpotify } = useAuthActions()
 
 const handleLogin = async () => {
 	signInWithSpotify()
@@ -24,7 +26,7 @@ const logHome = () => console.log('🏠 Going home')
 
 			<div class="flex items-center">
 				<Button
-					v-if="!isLoggedIn"
+					v-if="!isAuthenticated"
 					class="h-8 px-4 cursor-pointer"
 					@click="handleLogin"
 				>
