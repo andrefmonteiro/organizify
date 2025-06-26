@@ -1,9 +1,8 @@
 <script setup lang="ts">
-const { isLoggedIn, logIn } = useAuth()
+const { isLoggedIn, signInWithSpotify } = useAuth()
 
 const handleLogin = async () => {
-	logIn()
-	await navigateTo('/dashboard')
+	signInWithSpotify()
 }
 </script>
 
@@ -14,7 +13,7 @@ const handleLogin = async () => {
 				<NuxtLink
 					to="/"
 				>
-					<div class="text-2xl font-bold hover:opacity-80 transition-opacity">Organizify</div>
+					<div class="text-2xl font-bold transition-opacity hover:opacity-80">Organizify</div>
 				</NuxtLink>
 			</div>
 
