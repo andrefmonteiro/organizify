@@ -1,5 +1,3 @@
-// composables/spotifyProfile.ts
-import { createClient } from '@supabase/supabase-js'
 import type { Session } from '@supabase/supabase-js'
 import type { SpotifyUser } from '~/types/spotify'
 
@@ -8,15 +6,10 @@ export const useSpotifyProfile = () => {
 
 	const fetchSpotifyProfile = async (session?: Session | null) => {
 		try {
-			// Create supabase client here if we need to get session
 			let currSession = session
 
 			if (!currSession) {
-				const config = useRuntimeConfig()
-				const supabase = createClient(
-					config.public.supabaseUrl,
-					config.public.supabaseKey,
-				)
+				const supabase = useSupabase()
 				const { data } = await supabase.auth.getSession()
 				currSession = data.session
 			}

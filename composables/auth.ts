@@ -1,16 +1,11 @@
-import { type User, type Session, type AuthChangeEvent, createClient } from '@supabase/supabase-js'
+import type { User, Session, AuthChangeEvent } from '@supabase/supabase-js'
 
 export const useAuth = () => {
 	const isLoggedIn = useState<boolean>('auth.isLoggedIn', () => false)
 	const supabaseUser = useState<User | null>('auth.user', () => null)
 	const loading = useState<boolean>('auth.loading', () => false)
 	const { fetchSpotifyProfile } = useSpotifyProfile()
-
-	const config = useRuntimeConfig()
-	const supabase = createClient(
-		config.public.supabaseUrl,
-		config.public.supabaseKey,
-	)
+	const supabase = useSupabase()
 
 	const handleUserSignedIn = (session: Session) => {
 		supabaseUser.value = session.user
@@ -34,7 +29,21 @@ export const useAuth = () => {
 		console.log('AUTH EVENT: ', event, session)
 		console.log('SESSION: ', JSON.stringify(session, null, 2))
 
-		if (event === 'INITIAL_SESSION') {
+		if (event === 'SIGNED_OUT' && window.location.hash.includes('error=')) {
+			console.error('OAuth Error detected in URL:', window.location.hash)
+			const urlParams = new URLSearchParams(window.location.hash.substring(1))
+			const errorDetails = {
+				error: urlParams.get('error'),
+				error_code: urlParams.get('error_code'),
+				error_description: decodeURIComponent(urlParams.get('error_description') || ''),
+			}
+			console.error('Detailed error:', errorDetails)
+
+			// Show user-friendly error
+			alert(`Login failed: ${errorDetails.error_description}`)
+		}
+
+		else if (event === 'INITIAL_SESSION') {
 			if (session?.user) {
 				console.log('INITIAL SESSION FOUND: ', JSON.stringify(session, null, 2))
 				handleUserSignedIn(session)
@@ -59,7 +68,7 @@ export const useAuth = () => {
 				provider: 'spotify',
 				options: {
 					redirectTo: `${window.location.origin}/dashboard`,
-					scopes: 'user-read-private user-read-email playlist-read-private playlist-modify-private playlist-modify-public playlist-read-collaborative',
+					scopes: 'user-read-private user-read-email playlist-read-private playlist-modify-private playlist-modify-public',
 				},
 			})
 		}
