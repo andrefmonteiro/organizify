@@ -2,7 +2,7 @@
 const { spotifyProfile } = useSpotifyProfile()
 
 definePageMeta({
-	middleware: 'auth',
+	requiresAuth: true,
 })
 </script>
 

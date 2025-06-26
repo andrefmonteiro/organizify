@@ -1,5 +1,6 @@
-export default defineNuxtRouteMiddleware((to, from) => {
+export default defineNuxtRouteMiddleware((to) => {
 	const { isLoggedIn, loading } = useAuth()
+
 	if (loading.value) {
 		console.log('⏳ Authentication still loading...')
 		return

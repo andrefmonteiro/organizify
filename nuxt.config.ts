@@ -9,7 +9,7 @@ export default defineNuxtConfig({
 		supabaseDbPassowrd: process.env.SUPABASE_DB_PASSWORD,
 		public: {
 			supabaseKey: process.env.SUPABASE_KEY,
-			supabaseUrl: process.env.SUPABASE_PROJECT_URL,
+			supabaseUrl: process.env.SUPABASE_URL,
 		},
 	},
 	compatibilityDate: '2024-11-01',
