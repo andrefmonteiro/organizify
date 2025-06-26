@@ -2,7 +2,7 @@
 import tailwindcss from '@tailwindcss/vite'
 
 export default defineNuxtConfig({
-	modules: ['@nuxt/eslint', 'shadcn-nuxt'],
+	modules: ['@nuxt/eslint', 'shadcn-nuxt', '@nuxtjs/supabase'],
 	devtools: { enabled: true },
 	css: ['~/assets/css/tailwind.css'],
 	runtimeConfig: {
@@ -32,5 +32,14 @@ export default defineNuxtConfig({
      * @default "./components/ui"
      */
 		componentDir: './components/ui',
+	},
+	supabase: {
+		redirect: true,
+		redirectOptions: {
+			login: '/',
+			callback: '/confirm',
+			exclude: ['/'],
+			saveRedirectToCookie: true,
+		},
 	},
 })
