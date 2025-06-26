@@ -1,7 +1,8 @@
 import type { Session } from '@supabase/supabase-js'
+import type { SpotifyUser } from '~/types/spotify'
 
 export const useSpotifyProfile = () => {
-	const spotifyProfile = useState('spotify.profile', () => null)
+	const spotifyProfile = useState<SpotifyUser | null>('spotify.profile', () => null)
 
 	const fetchSpotifyProfile = async (session?: Session) => {
 		try {
