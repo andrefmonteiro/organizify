@@ -1,17 +1,17 @@
 export const useSpotifyPermissions = () => {
 	const user = useSupabaseUser()
-	const sessionValidated = ref(false)
-	const permissionStatus = ref<'unknown' | 'valid' | 'invalid'>('unknown')
+	const sessionValidated = ref<boolean>(false)
+	const hasValidPermissions = ref<boolean>(true)
 
 	const validateSessionPermissions = async () => {
-		if (sessionValidated.value || !user.value) return permissionStatus.value
+		if (sessionValidated.value || !user.value) return hasValidPermissions.value
 
 		const accessToken = user.value?.user_metadata?.access_token
 		if (!accessToken) {
 			console.warn('No access token available')
-			permissionStatus.value = 'invalid'
+			hasValidPermissions.value = false
 			sessionValidated.value = true
-			return permissionStatus.value
+			return hasValidPermissions.value
 		}
 		try {
 			const response = await fetch('https://api.spotify.com/v1/me', {
@@ -20,7 +20,7 @@ export const useSpotifyPermissions = () => {
 				},
 			})
 			if (response.ok) {
-				permissionStatus.value = 'valid'
+				hasValidPermissions.value = true
 				sessionValidated.value = true
 				console.log('Spotify permissions validated for session')
 			}
@@ -34,22 +34,22 @@ export const useSpotifyPermissions = () => {
 		catch (error) {
 			console.error('Permission validation error: ', error)
 		}
-		return permissionStatus.value
+		return hasValidPermissions.value
 	}
 
 	const handle401Error = () => {
 		console.log('Detected 401 error - marking permissions as invalid')
-		permissionStatus.value = 'invalid'
+		hasValidPermissions.value = false
 		sessionValidated.value = true
 	}
 
 	watch(user, () => {
 		sessionValidated.value = false
-		permissionStatus.value = 'unknown'
+		hasValidPermissions.value = false
 	})
 
 	return {
-		permissionStatus: readonly(permissionStatus),
+		hasValidPermissions: readonly(hasValidPermissions),
 		validateSessionPermissions,
 		handle401Error,
 	}
