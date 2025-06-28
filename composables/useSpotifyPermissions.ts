@@ -1,6 +1,5 @@
 export const useSpotifyPermissions = () => {
 	const user = useSupabaseUser()
-
 	const sessionValidated = ref(false)
 	const permissionStatus = ref<'unknown' | 'valid' | 'invalid'>('unknown')
 
@@ -53,6 +52,5 @@ export const useSpotifyPermissions = () => {
 		permissionStatus: readonly(permissionStatus),
 		validateSessionPermissions,
 		handle401Error,
-		sessionValidated: readonly(sessionValidated),
 	}
 }
