@@ -9,7 +9,7 @@ definePageMeta({
 })
 // const { permissionStatus } = useSpotifyPermissions()
 const { signInWithSpotify } = useAuthActions()
-const { permissionStatus } = useSpotifyPermissions()
+const { hasValidPermissions } = useSpotifyPermissions()
 const { displayName } = useSpotifyProfile()
 
 const handleReconnect = async () => {
@@ -20,13 +20,15 @@ const handleReconnect = async () => {
 <template>
 	<div>
 		<Alert
-			v-if="permissionStatus === 'invalid'"
+			v-if="!hasValidPermissions"
 			class="mt-4"
 			variant="warning"
 		>
 			<TriangleAlert class="w-4 h-4" />
-			<AlertTitle>You're not connected</AlertTitle>
-			<AlertDescription class="mt-2">
+			<AlertTitle class="font-bold text-base">
+				You're not connected
+			</AlertTitle>
+			<AlertDescription class="mt-2 text-base">
 				Your Spotify permissions have been revoked or expired.
 				Please reconnect your account to use Organizify's features.
 			</AlertDescription>
@@ -45,7 +47,7 @@ const handleReconnect = async () => {
 		</h1>
 		<Separator />
 		<div
-			:class="{ 'opacity-50 pointer-events-none': permissionStatus === 'invalid' }"
+			:class="{ 'opacity-50 pointer-events-none': !hasValidPermissions }"
 		>
 			<WeeklyPlaylistsToggle />
 		</div>
