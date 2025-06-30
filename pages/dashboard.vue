@@ -7,7 +7,7 @@ import AlertTitle from '~/components/ui/alert/AlertTitle.vue'
 definePageMeta({
 	middleware: 'spotify-permissions',
 })
-// const { permissionStatus } = useSpotifyPermissions()
+
 const { signInWithSpotify } = useAuthActions()
 const { hasValidPermissions } = useSpotifyPermissions()
 const { displayName } = useSpotifyProfile()
