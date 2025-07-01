@@ -9,8 +9,18 @@ definePageMeta({
 })
 
 const { signInWithSpotify } = useAuthActions()
-const { hasValidPermissions } = useSpotifyPermissions()
+const { hasValidPermissions, testTokenRefresh, debugUserData, testActualTokenAccess, inspectSupabaseSession } = useSpotifyPermissions()
 const { displayName } = useSpotifyProfile()
+
+onMounted(() => {
+	console.log('=== STARTING COMPREHENSIVE TOKEN INVESTIGATION ===')
+	inspectSupabaseSession()
+	testActualTokenAccess()
+	debugUserData()
+	console.log('=== INVESTIGATION COMPLETE ===')
+	testTokenRefresh()
+},
+)
 
 const handleReconnect = async () => {
 	await signInWithSpotify()
