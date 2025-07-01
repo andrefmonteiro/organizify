@@ -168,28 +168,6 @@ export const useSpotifyPermissions = () => {
 	}
 
 	/**
-	 * Debug function to inspect the complete user object structure.
-	 * This helps understand how Supabase stores OAuth data and troubleshoot
-	 * authentication issues by revealing the actual data structure.
-	 */
-	const debugUserData = () => {
-		const currentUser = useSupabaseUser()
-		console.log('🔍 Full user object:', currentUser.value)
-		console.log('🔍 User metadata:', currentUser.value?.user_metadata)
-		console.log('🔍 App metadata:', currentUser.value?.app_metadata)
-		console.log('🔍 Identities:', currentUser.value?.identities)
-
-		// Examine the Spotify identity in detail if it exists
-		if (currentUser.value?.identities && currentUser.value.identities.length > 0) {
-			const spotifyIdentity = currentUser.value.identities.find(id => id.provider === 'spotify')
-			console.log('🔍 Spotify identity:', spotifyIdentity)
-			console.log('🔍 Identity data:', spotifyIdentity?.identity_data)
-			console.log('🔍 Last sign in data:', spotifyIdentity?.last_sign_in_at)
-			console.log('🔍 All identity properties:', Object.keys(spotifyIdentity || {}))
-		}
-	}
-
-	/**
 	 * Validates that the user's Spotify access token is still valid by making
 	 * a test API call to Spotify's /me endpoint. This function handles the
 	 * core logic for determining if the user needs to reconnect their account.
@@ -253,33 +231,6 @@ export const useSpotifyPermissions = () => {
 	}
 
 	/**
-	 * Test function to artificially corrupt the access token for testing
-	 * token expiration handling without waiting for natural expiration.
-	 * This helps verify that error handling works correctly.
-	 */
-	const testTokenRefresh = () => {
-		const session = useSupabaseSession()
-
-		if (session.value?.provider_token) {
-			// Corrupt the provider token in the session object
-			const originalToken = session.value.provider_token
-			session.value.provider_token += 'INVALID'
-			console.log('🧪 Testing: Provider token corrupted to simulate expiration')
-			console.log(`Original token length: ${originalToken.length}`)
-			console.log(`Corrupted token length: ${session.value.provider_token.length}`)
-
-			// Reset session validation so the corruption will be tested
-			sessionValidated.value = false
-
-			return true // Indicates corruption was successful
-		}
-		else {
-			console.log('❌ No provider token found in session to corrupt')
-			return false
-		}
-	}
-
-	/**
 	 * React to user changes by resetting validation state.
 	 * This ensures that when a user logs out and back in,
 	 * we re-validate their permissions fresh.
@@ -294,8 +245,6 @@ export const useSpotifyPermissions = () => {
 		hasValidPermissions: readonly(hasValidPermissions),
 		validateSessionPermissions,
 		handle401Error,
-		testTokenRefresh,
-		debugUserData,
 		testActualTokenAccess,
 		inspectSupabaseSession,
 	}

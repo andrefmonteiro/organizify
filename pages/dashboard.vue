@@ -9,7 +9,7 @@ definePageMeta({
 })
 
 const { signInWithSpotify } = useAuthActions()
-const { hasValidPermissions, testTokenRefresh, debugUserData, testActualTokenAccess, inspectSupabaseSession } = useSpotifyPermissions()
+const { hasValidPermissions, debugUserData, testActualTokenAccess, inspectSupabaseSession } = useSpotifyPermissions()
 const { displayName } = useSpotifyProfile()
 
 onMounted(() => {
@@ -18,7 +18,6 @@ onMounted(() => {
 	testActualTokenAccess()
 	debugUserData()
 	console.log('=== INVESTIGATION COMPLETE ===')
-	testTokenRefresh()
 },
 )
 
