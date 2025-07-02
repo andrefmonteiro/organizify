@@ -8,7 +8,7 @@ export const useAuthActions = () => {
 				provider: 'spotify',
 				options: {
 					redirectTo: `${window.location.origin}/confirm`,
-					scopes: 'user-read-private user-read-email playlist-read-private playlist-modify-private playlist-modify-public',
+					scopes: 'user-read-private user-read-email playlist-read-private playlist-modify-private playlist-modify-public user-library-read',
 				},
 			})
 			if (error) {
