@@ -9,13 +9,11 @@ definePageMeta({
 })
 
 const { signInWithSpotify } = useAuthActions()
-const { hasValidPermissions, debugUserData, testActualTokenAccess, inspectSupabaseSession } = useSpotifyPermissions()
+const { hasValidPermissions, debugUserData } = useSpotifyPermissions() // should hasValidPermissions be a computed variable or watcher?
 const { displayName } = useSpotifyProfile()
 
 onMounted(() => {
 	console.log('=== STARTING COMPREHENSIVE TOKEN INVESTIGATION ===')
-	inspectSupabaseSession()
-	testActualTokenAccess()
 	debugUserData()
 	console.log('=== INVESTIGATION COMPLETE ===')
 },
