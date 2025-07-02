@@ -46,7 +46,6 @@ export const useSpotifyPermissions = () => {
 				handle401Error()
 			}
 		}
-
 		return hasValidPermissions.value
 	}
 
