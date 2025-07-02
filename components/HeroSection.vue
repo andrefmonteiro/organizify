@@ -18,15 +18,14 @@ const handleLogin = async () => {
 		<div class="py-20 sm:py-24 lg:py-32">
 			<div class="text-center">
 				<h1 class="text-4xl font-bold text-balance sm:text-6xl">
-					Never lose your favorite tracks again
+					Declutter your Liked Songs
 				</h1>
 
 				<div class="max-w-2xl mx-auto mt-6">
 					<p class="text-lg leading-8 text-muted-foreground">
-						Annoyed by Discover Weekly and Release Radar disappearing every week?
+						It's hard to be organized.
 						<br>
-						Organizify automatically saves these tracks to permanent playlists,
-						so you never lose track of music you love.
+						Organizify allows you to automatically organize your liked songs into neat playlists.
 					</p>
 				</div>
 

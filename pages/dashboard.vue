@@ -54,7 +54,7 @@ const handleReconnect = async () => {
 		<div
 			:class="{ 'opacity-50 pointer-events-none': !hasValidPermissions }"
 		>
-			<WeeklyPlaylistsToggle />
+			<LikedSongsOrganizationSettings />
 		</div>
 	</div>
 </template>
