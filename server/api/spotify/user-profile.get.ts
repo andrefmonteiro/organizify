@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { serverSupabaseSession } from '#supabase/server' // error: Cannot find module '#supabase/server' or its corresponding type declarations.ts(2307)
+import { serverSupabaseSession } from '#supabase/server'
 
 export default defineEventHandler(async (event) => {
 	try {
