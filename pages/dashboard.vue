@@ -4,25 +4,16 @@ import Alert from '~/components/ui/alert/Alert.vue'
 import AlertDescription from '~/components/ui/alert/AlertDescription.vue'
 import AlertTitle from '~/components/ui/alert/AlertTitle.vue'
 
-definePageMeta({
-	middleware: 'spotify-permissions',
-})
-
 const { signInWithSpotify } = useAuthActions()
-const { hasValidPermissions } = useSpotifyPermissions()
+const { hasValidPermissions, validateSessionPermissions } = useSpotifyPermissions()
 const { displayName } = useSpotifyProfile()
 
 onMounted(async () => {
-	const mountId = Math.random().toString(36).substring(7)
-	console.log(`=== MOUNT ${mountId}: fetching user profile from api ===`)
-
 	try {
-		const { getUserProfile } = useSpotifyApi()
-		const profile = await getUserProfile()
-		console.log(`👤 MOUNT ${mountId} Profile:`, profile)
+		await validateSessionPermissions()
 	}
 	catch (error) {
-		console.log(`❌ MOUNT ${mountId} Error:`, error)
+		console.error('💥 Error during Spotify diagnostic:', error)
 	}
 })
 
