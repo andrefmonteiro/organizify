@@ -1,7 +1,23 @@
-<script setup>
+<script setup lang="ts">
 defineProps({
 	title: String,
-	description: String })
+	description: String,
+	enabled: Boolean,
+	loading: Boolean,
+})
+
+// Define what events this component can emit
+const emit = defineEmits(['toggle'])
+
+// Track internal switch state
+const isEnabled = ref(false)
+
+// Handle switch change and emit to parent
+const handleSwitchChange = (newValue: boolean) => {
+	isEnabled.value = newValue
+	// Emit the change to the parent component
+	emit('toggle', newValue)
+}
 </script>
 
 <template>
@@ -12,8 +28,20 @@ defineProps({
 			</div>
 			<div class="text-sm text-muted-foreground">
 				{{ description }}
+				<span
+					v-if="loading"
+					class="text-primary"
+				> • Loading...</span>
+				<span
+					v-else-if="enabled"
+					class="text-green-600"
+				> • Ready</span>
 			</div>
 		</div>
-		<Switch />
+		<Switch
+			:model-value="isEnabled"
+			:disabled="loading"
+			@update:model-value="handleSwitchChange"
+		/>
 	</div>
 </template>

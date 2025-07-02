@@ -56,8 +56,66 @@ export const useSpotifyApi = () => {
 		}
 	}
 
+	const getBatchLikedSongs = async (limit: number, offset: number = 0) => {
+		try {
+			return await $fetch('/api/spotify/user-liked-songs', {
+				query: {
+					limit: limit.toString(),
+					offset: offset.toString(),
+				},
+			})
+		}
+		catch (error: any) {
+			if (error.data?.code === 'no_provider_tokens') {
+				console.log('🚨 EDGE CASE: Using client-side tokens for getUserLikedSongs')
+				return await makeClientSideSpotifyCall(`/me/tracks?limit=${limit}&offset=${offset}`)
+			}
+			throw error
+		}
+	}
+
+	const getUserLikedSongs = async () => {
+		console.log('📦 Starting to fetch ALL liked songs...')
+
+		const allSongs: any[] = []
+		let offset = 0
+		const limit = 50 // Max allowed by Spotify
+		let hasMore = true
+
+		while (hasMore) {
+			console.log(`📥 Fetching songs ${offset}-${offset + limit - 1}...`)
+
+			const batch = await getBatchLikedSongs(limit, offset)
+			console.log(`📊 Batch info: got ${batch.items?.length} items, total in collection: ${batch.total}, our progress: ${allSongs.length}/${batch.total}`)
+
+			if (batch.items && batch.items.length > 0) {
+				allSongs.push(...batch.items)
+				console.log(`✅ Got ${batch.items.length} songs. Total so far: ${allSongs.length}`)
+
+				// Check if we've reached the end
+				if (batch.items.length < limit || allSongs.length >= batch.total) { // i dont understand the second condition
+					hasMore = false
+					console.log(`🎯 Finished! Got all ${allSongs.length} liked songs`)
+				}
+				else {
+					offset += limit
+				}
+			}
+			else {
+				hasMore = false
+				console.log('🔚 No more songs to fetch')
+			}
+		}
+
+		return {
+			items: allSongs,
+			total: allSongs.length,
+		}
+	}
+
 	return {
 		getUserProfile,
 		getUserPlaylists,
+		getUserLikedSongs, // we only need to expose this one, not the batch one. The batch one is internal helper
 	}
 }
