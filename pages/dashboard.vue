@@ -9,15 +9,22 @@ definePageMeta({
 })
 
 const { signInWithSpotify } = useAuthActions()
-const { hasValidPermissions, debugUserData } = useSpotifyPermissions() // should hasValidPermissions be a computed variable or watcher?
+const { hasValidPermissions } = useSpotifyPermissions()
 const { displayName } = useSpotifyProfile()
 
-onMounted(() => {
-	console.log('=== STARTING COMPREHENSIVE TOKEN INVESTIGATION ===')
-	debugUserData()
-	console.log('=== INVESTIGATION COMPLETE ===')
-},
-)
+onMounted(async () => {
+	const mountId = Math.random().toString(36).substring(7)
+	console.log(`=== MOUNT ${mountId}: fetching user profile from api ===`)
+
+	try {
+		const { getUserProfile } = useSpotifyApi()
+		const profile = await getUserProfile()
+		console.log(`👤 MOUNT ${mountId} Profile:`, profile)
+	}
+	catch (error) {
+		console.log(`❌ MOUNT ${mountId} Error:`, error)
+	}
+})
 
 const handleReconnect = async () => {
 	await signInWithSpotify()
@@ -32,7 +39,7 @@ const handleReconnect = async () => {
 			variant="warning"
 		>
 			<TriangleAlert class="w-4 h-4" />
-			<AlertTitle class="font-bold text-base">
+			<AlertTitle class="text-base font-bold">
 				You're not connected
 			</AlertTitle>
 			<AlertDescription class="mt-2 text-base">

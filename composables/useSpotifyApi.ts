@@ -4,7 +4,6 @@
  * 1. Always try server endpoint first (uses serverSupabaseSession)
  * 2. If server has no provider tokens, fallback to client-side tokens
  * 3. Transparent to the calling code - just call getUserProfile(), getPlaylists(), etc.
-
  */
 
 export const useSpotifyApi = () => {
@@ -33,7 +32,7 @@ export const useSpotifyApi = () => {
 
 	const getUserProfile = async () => {
 		try {
-			return await $fetch('/api/spotify/user-profile') // fetch vs useFetch vs $fetch?
+			return await $fetch('/api/spotify/user-profile')
 		}
 		catch (error: any) {
 			if (error.data?.code === 'no_provider_tokens') {
