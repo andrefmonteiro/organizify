@@ -1,3 +1,25 @@
 {
-  "extends": "../.nuxt/tsconfig.server.json"
+	"extends": "../.nuxt/tsconfig.json",
+	"compilerOptions": {
+		"paths": {
+			"#supabase/server": [
+				"../node_modules/@nuxtjs/supabase/dist/runtime/server/services"
+			],
+			"#supabase/server/*": [
+				"../node_modules/@nuxtjs/supabase/dist/runtime/server/services/*"
+			],
+			"#supabase": [
+				"../node_modules/@nuxtjs/supabase/dist/runtime"
+			],
+			"#supabase/*": [
+				"../node_modules/@nuxtjs/supabase/dist/runtime/*"
+			],
+			"~/*": [
+				"../*"
+			],
+			"@/*": [
+				"../*"
+			]
+		}
+	}
 }
