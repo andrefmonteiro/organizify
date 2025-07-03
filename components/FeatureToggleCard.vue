@@ -28,14 +28,6 @@ const handleSwitchChange = (newValue: boolean) => {
 			</div>
 			<div class="text-sm text-muted-foreground">
 				{{ description }}
-				<span
-					v-if="loading"
-					class="text-primary"
-				> • Loading...</span>
-				<span
-					v-else-if="enabled"
-					class="text-green-600"
-				> • Ready</span>
 			</div>
 		</div>
 		<Switch

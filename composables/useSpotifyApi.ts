@@ -56,7 +56,7 @@ export const useSpotifyApi = () => {
 		}
 	}
 
-	const getBatchLikedSongs = async (limit: number, offset: number = 0) => {
+	const getBatchLikedSongs = async (limit: number = 10, offset: number = 0) => {
 		try {
 			return await $fetch('/api/spotify/user-liked-songs', {
 				query: {
@@ -77,7 +77,7 @@ export const useSpotifyApi = () => {
 	const getUserLikedSongs = async () => {
 		console.log('📦 Starting to fetch ALL liked songs...')
 
-		const allSongs: any[] = []
+		const allLikedSongs: any[] = []
 		let offset = 0
 		const limit = 50 // Max allowed by Spotify
 		let hasMore = true
@@ -86,16 +86,16 @@ export const useSpotifyApi = () => {
 			console.log(`📥 Fetching songs ${offset}-${offset + limit - 1}...`)
 
 			const batch = await getBatchLikedSongs(limit, offset)
-			console.log(`📊 Batch info: got ${batch.items?.length} items, total in collection: ${batch.total}, our progress: ${allSongs.length}/${batch.total}`)
+			console.log(`📊 Batch info: got ${batch.items?.length} items, total in collection: ${batch.total}, our progress: ${allLikedSongs.length}/${batch.total}`)
 
 			if (batch.items && batch.items.length > 0) {
-				allSongs.push(...batch.items)
-				console.log(`✅ Got ${batch.items.length} songs. Total so far: ${allSongs.length}`)
+				allLikedSongs.push(...batch.items)
+				console.log(`✅ Got ${batch.items.length} songs. Total so far: ${allLikedSongs.length}`)
 
 				// Check if we've reached the end
-				if (batch.items.length < limit || allSongs.length >= batch.total) { // i dont understand the second condition
+				if (batch.items.length < limit || allLikedSongs.length >= batch.total) { // i dont understand the second condition
 					hasMore = false
-					console.log(`🎯 Finished! Got all ${allSongs.length} liked songs`)
+					console.log(`🎯 Finished! Got all ${allLikedSongs.length} liked songs`)
 				}
 				else {
 					offset += limit
@@ -108,14 +108,15 @@ export const useSpotifyApi = () => {
 		}
 
 		return {
-			items: allSongs,
-			total: allSongs.length,
+			allLikedSongs,
+			totalSongs: allLikedSongs.length,
 		}
 	}
 
 	return {
 		getUserProfile,
 		getUserPlaylists,
-		getUserLikedSongs, // we only need to expose this one, not the batch one. The batch one is internal helper
+		getUserLikedSongs,
+		getBatchLikedSongs,
 	}
 }

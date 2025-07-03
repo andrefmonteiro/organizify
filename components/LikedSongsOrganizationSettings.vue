@@ -1,12 +1,10 @@
 <!-- eslint-disable @typescript-eslint/no-explicit-any -->
 <script setup lang="ts">
-const { getUserLikedSongs } = useSpotifyApi()
-
 const isOrganizing = ref<boolean>(false)
 const isLoading = ref(false)
+
 const handleOrganizeToggle = async (enabled: boolean) => {
 	if (!enabled) {
-		// Switch turned OFF
 		isOrganizing.value = false
 		console.log('🔄 Organization disabled')
 		return
@@ -17,26 +15,25 @@ const handleOrganizeToggle = async (enabled: boolean) => {
 	isLoading.value = true
 
 	try {
-		const allLikedSongs = await getUserLikedSongs()
+		const { getBatchLikedSongs } = useSpotifyApi()
 
-		console.log('📊 Complete Results:', allLikedSongs)
-		console.log(`🎯 Successfully fetched ALL ${allLikedSongs.total} liked songs!`)
+		// ✅ PROPERLY AWAITED: Now we wait for the API call to complete
+		// before logging the results
+		const songs = await getBatchLikedSongs(10, 0)
 
-		if (allLikedSongs.items?.length > 0) {
-			console.log('🔍 First 3 songs analysis:')
-			allLikedSongs.items.slice(0, 3).forEach((item: any, index: number) => {
-				const track = item.track
-				const artist = track?.artists?.[0]
+		console.log('📦 Batch of songs received:', songs)
+		console.log('🎵 Number of songs:', songs?.items?.length)
+		console.log('📊 Total available:', songs?.total)
 
-				console.log(`Song ${index + 1}:`, {
-					name: track?.name,
-					artist: artist?.name,
-					artistId: artist?.id,
-					album: track?.album?.name,
-					addedAt: item.added_at,
-					trackGenres: track?.genres || 'No track genres',
-					artistGenres: artist?.genres || 'No artist genres',
-				})
+		// Let's also examine the first song to see the data structure
+		if (songs?.items?.[0]) {
+			const firstSong = songs.items[0]
+			console.log('🎼 First song analysis:', {
+				songName: firstSong.track?.name,
+				artistName: firstSong.track?.artists?.[0]?.name,
+				albumName: firstSong.track?.album?.name,
+				addedDate: firstSong.added_at,
+				trackId: firstSong.track?.id,
 			})
 		}
 
