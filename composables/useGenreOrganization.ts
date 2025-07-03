@@ -54,7 +54,7 @@ export const useGenreOrganization = () => {
 			'west coast rap', 'southern hip hop', 'gangsta rap', 'alternative hip hop',
 			'experimental hip hop', 'old school hip hop', 'boom bap', 'cloud rap',
 			'mumble rap', 'latin hip hop', 'uk hip hop', 'french hip hop', 'german hip hop',
-			'trap', 'gym phonk', 'swedish trap pop', 'dutch rap pop',
+			'trap', 'gym phonk', 'swedish trap pop', 'dutch rap pop', 'canadian hip hop',
 		],
 		Electronic: [
 			'electronic', 'house', 'techno', 'dubstep', 'edm', 'ambient', 'trance',
