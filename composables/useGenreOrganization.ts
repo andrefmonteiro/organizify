@@ -105,14 +105,18 @@ export const useGenreOrganization = () => {
 	 * Maps specific Spotify genres to broad user-friendly categories
 	 */
 	const mapGenresToBroadCategories = (spotifyGenres: string[]): string => {
-		for (const [broadGenre, subgenres] of Object.entries(GENRE_MAPPING)) {
-			const hasMatch = spotifyGenres.some(artistGenre =>
-				subgenres.some(mappedGenre =>
-					artistGenre.toLowerCase().includes(mappedGenre.toLowerCase()),
-				),
-			)
-			if (hasMatch) {
-				return broadGenre.replace('_', ' & ') // "R_and_B" -> "R & B"
+		// Check each genre in priority order (first genre is most important)
+		for (let i = 0; i < spotifyGenres.length; i++) {
+			const genreToCheck = spotifyGenres[i]
+
+			// See if this specific genre matches any of our broad categories
+			for (const [broadGenre, subgenres] of Object.entries(GENRE_MAPPING)) {
+				const hasMatch = subgenres.some(mappedGenre =>
+					genreToCheck.toLowerCase().includes(mappedGenre.toLowerCase()),
+				)
+				if (hasMatch) {
+					return broadGenre.replace('_', ' & ')
+				}
 			}
 		}
 		return 'Other'
@@ -121,17 +125,19 @@ export const useGenreOrganization = () => {
 	/**
 	 * Extract unique artist IDs from liked songs (first artist only)
 	 */
-	const getArtistsToFetch = (likedSongs: any[]): string[] => {
+	const getArtistsToFetch = (tracks: any[]): string[] => {
 		const uniqueArtistIds = new Set<string>()
 
-		likedSongs.forEach((item) => {
-			const primaryArtist = item.track?.artists?.[0]
+		tracks.forEach((item) => {
+			// Handle different track formats: track on liked songs vs track on playlist
+
+			const track = item.track || item
+			const primaryArtist = track?.artists?.[0]
 			if (primaryArtist?.id) {
 				uniqueArtistIds.add(primaryArtist.id)
 			}
 		})
 
-		// Filter out artists already cached
 		const artistsToFetch = Array.from(uniqueArtistIds).filter(
 			artistId => !artistCache.has(artistId),
 		)
@@ -175,37 +181,36 @@ export const useGenreOrganization = () => {
 	/**
 	 * MAIN FUNCTION: Organize all liked songs by genre
 	 */
-	const organizeByGenre = async (likedSongs: any[]) => {
-		console.log(`🎯 Organizing ${likedSongs.length} songs by genre...`)
+	const organizeByGenre = async (tracks: any[]) => {
+		console.log(`🎯 Organizing ${tracks.length} tracks by genre...`)
 
-		// Get artists we need to fetch
-		const artistsToFetch = getArtistsToFetch(likedSongs)
+		const artistsToFetch = getArtistsToFetch(tracks)
 
-		// Fetch missing artist data
 		if (artistsToFetch.length > 0) {
 			await fetchAndCacheArtistData(artistsToFetch)
 		}
 
-		// Organize songs by genre
-		const songsByGenre: Record<string, any[]> = {}
+		const tracksByGenre: Record<string, any[]> = {}
 
-		likedSongs.forEach((item) => {
-			const primaryArtist = item.track?.artists?.[0]
+		tracks.forEach((item) => {
+			// Handle different track formats: track on liked songs vs track on playlist
+			const track = item.track || item
+			const primaryArtist = track?.artists?.[0]
 
 			if (primaryArtist?.id) {
 				const artistGenres = artistCache.get(primaryArtist.id) || []
 				const broadGenre = mapGenresToBroadCategories(artistGenres)
 
-				if (!songsByGenre[broadGenre]) {
-					songsByGenre[broadGenre] = []
+				if (!tracksByGenre[broadGenre]) {
+					tracksByGenre[broadGenre] = []
 				}
 
-				songsByGenre[broadGenre].push(item)
+				tracksByGenre[broadGenre].push(item)
 			}
 		})
 
-		console.log(`✅ Organization complete: ${Object.keys(songsByGenre).length} categories created`)
-		return songsByGenre
+		console.log(`✅ Organization complete: ${Object.keys(tracksByGenre).length} categories created`)
+		return tracksByGenre
 	}
 
 	return {
