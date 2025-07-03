@@ -90,7 +90,6 @@ export default defineEventHandler(async (event) => {
 
 		console.log(`✅ Successfully created playlist "${playlistName}" with ID: ${playlistData.id}`)
 
-		// Return essential playlist information for the client
 		return {
 			playlistId: playlistData.id,
 			name: playlistData.name,
