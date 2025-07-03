@@ -120,11 +120,30 @@ export const useGenreOrganization = () => {
 					genreToCheck.toLowerCase().includes(mappedGenre.toLowerCase()),
 				)
 				if (hasMatch) {
-					return broadGenre.replace('_', ' & ')
+					return formatGenreName(broadGenre)
 				}
 			}
 		}
 		return 'Other'
+	}
+	const formatGenreName = (internalGenreName: string): string => {
+		const genreNameMappings: Record<string, string> = {
+			Hip_Hop: 'Hip-Hop',
+			R_and_B: 'R&B',
+			Folk_Acoustic: 'Folk/Acoustic',
+			Anime_Japanese: 'Anime/Japanese',
+			Gospel_Worship: 'Gospel/Worship',
+			// For any genres that don't have special formatting needs,
+			// we'll just replace underscores with spaces
+		}
+
+		// If we have an explicit mapping, use it
+		if (genreNameMappings[internalGenreName]) {
+			return genreNameMappings[internalGenreName]
+		}
+
+		// For genres not in our mapping, default to replacing underscores with spaces
+		return internalGenreName.replace(/_/g, ' ')
 	}
 
 	/**

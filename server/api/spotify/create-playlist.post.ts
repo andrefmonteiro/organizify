@@ -54,7 +54,7 @@ export default defineEventHandler(async (event) => {
 		}
 
 		// Create the playlist with Organizify branding
-		const playlistName = `Organizify - ${genreName}`
+		const playlistName = `${genreName} - Organizify`
 		const playlistDescription = `${genreName} playlist made by Organizify`
 
 		console.log(`🎵 Creating playlist: "${playlistName}" for user ${userId}`)
