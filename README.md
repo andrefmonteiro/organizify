@@ -4,7 +4,6 @@
 
 Organizify automatically organizes your Spotify liked songs into neat, genre-based playlists. Say goodbye to endless scrolling through your liked songs collection and hello to perfectly organized music discovery.
 
-![Organizify Interface](https://via.placeholder.com/800x400/EBF4EE/06180D?text=Organizify+Dashboard)
 
 ## ✨ What It Does
 
