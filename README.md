@@ -44,12 +44,12 @@ The system handles complex genre detection by analyzing artist data and uses int
 
 ## 🛠 Tech Stack
 
-- **Frontend**: Nuxt 4, Vue 3, TypeScript
-- **Styling**: Tailwind CSS with custom brand colors
-- **UI Components**: shadcn/ui components for polished interface
-- **Authentication**: Supabase Auth with Spotify OAuth
-- **Database**: Supabase PostgreSQL
-- **API Integration**: Spotify Web API
+- **Frontend**: `Nuxt.js`
+- **Styling**: `Tailwind CSS`
+- **UI Components**: `shadcn/ui`
+- **Authentication**: `Supabase Auth` with `Spotify OAuth`
+- **Database**: `Supabase PostgreSQL`
+- **API Integration**: `Spotify Web API`
 - **Deployment Ready**: Built for Vercel, Netlify, or any Node.js host
 
 ## 🏗 How It Works
