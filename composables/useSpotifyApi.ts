@@ -1,12 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-/**
- * Enhanced Spotify API composable with artist genre lookup capabilities
- * Architecture:
- * 1. Always try server endpoint first (uses serverSupabaseSession)
- * 2. If server has no provider tokens, fallback to client-side tokens
- * 3. Transparent to the calling code - just call the functions as needed
- * 4. Optimized for "first artist only" genre organization approach
- */
 
 export const useSpotifyApi = () => {
 	/**

@@ -1,88 +1,53 @@
 <!-- eslint-disable @typescript-eslint/no-explicit-any -->
-<script setup lang="ts">
-const { organizeByGenre } = useGenreOrganization()
-const { getUserLikedSongs } = useSpotifyApi()
 
+<script setup lang="ts">
 const isOrganizing = ref<boolean>(false)
-const isLoading = ref(false)
+const isLoading = ref<boolean>(false)
+
+const lastOrganizationResult = ref<any>(null)
 
 const handleOrganizeToggle = async (enabled: boolean) => {
 	if (!enabled) {
 		isOrganizing.value = false
+		isLoading.value = false
+		lastOrganizationResult.value = null
 		return
 	}
 
-	console.log('🎵 Starting genre organization of your liked songs...')
-	isLoading.value = true
+	console.log('🎵 Starting server-side genre organization...')
+
+	lastOrganizationResult.value = null
 
 	try {
-		// Step 1: Get all liked songs
-		const allSongs = await getUserLikedSongs()
-		console.log(`📦 Loaded ${allSongs.total} songs from your library`)
+		const result = await $fetch('/api/spotify/organize-liked-songs', {
+			method: 'POST',
+		})
 
-		// Step 2: Organize them by genre
-		const organizedSongs = await organizeByGenre(allSongs.items)
+		if (result.success) {
+			console.log('✅ Organization completed successfully!')
 
-		// Step 3: Filter out empty genres and prepare for playlist creation
-		const genreEntries = Object.entries(organizedSongs)
-			.filter(([_genre, songs]) => songs.length > 0)
-			.sort(([, songsA], [, songsB]) => songsB.length - songsA.length)
-
-		if (genreEntries.length === 0) {
-			console.log('❌ No songs to organize - all genres were empty')
-			return
-		}
-
-		console.log(`🎼 Creating ${genreEntries.length} playlists...`)
-
-		let playlistsCreated = 0
-		let totalTracks = 0
-
-		// Process each genre sequentially to avoid overwhelming the API
-		for (const [genre, songs] of genreEntries) {
-			try {
-				console.log(`📁 Creating "${genre}" playlist (${playlistsCreated + 1}/${genreEntries.length})...`)
-
-				// Step 1: Create the playlist container
-				const playlistResponse = await $fetch('/api/spotify/create-playlist', {
-					method: 'POST',
-					body: { genreName: genre },
-				}) as { playlistId: string, name: string, description: string, externalUrl: string, trackCount: number, public: boolean }
-				console.log('Playlist response structure:', Object.keys(playlistResponse))
-				console.log('Full response:', playlistResponse)
-
-				// Step 2: Extract track IDs for the API call
-				const trackIds = songs.map((item: any) => {
-					const track = item.track || item
-					return track.id
-				}).filter(Boolean) // Remove any undefined track IDs
-
-				// Step 3: Add tracks to the newly created playlist
-				const addTracksResponse = await $fetch('/api/spotify/add-tracks-to-playlist', {
-					method: 'POST',
-					body: {
-						playlist_id: playlistResponse.playlistId,
-						track_ids: trackIds,
-					},
-				})
-
-				if (addTracksResponse.success) {
-					playlistsCreated++
-					totalTracks += addTracksResponse.tracks_added
-				}
+			if ('summary' in result) {
+				console.log(`Created ${result.summary.playlistsCreated} playlists with ${result.summary.totalTracks} tracks`)
 			}
-			catch (error) {
-				// Continue with remaining genres even if this one fails
-				console.error(`❌ Failed to create "${genre}" playlist:`, error)
-			}
-		}
 
-		console.log(`🎊 Created ${playlistsCreated} playlists with ${totalTracks} total tracks`)
-		isOrganizing.value = true
+			isOrganizing.value = true
+			lastOrganizationResult.value = result
+		}
+		else {
+			console.log('⚠️ Organization completed with issues:', result.message)
+
+			lastOrganizationResult.value = result
+		}
 	}
 	catch (error) {
-		console.error('❌ Genre organization failed:', error)
+		const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred'
+		console.error('❌ Organization failed:', errorMessage)
+
 		isOrganizing.value = false
+		lastOrganizationResult.value = {
+			success: false,
+			message: `Failed to organize music: ${errorMessage}`,
+		}
 	}
 	finally {
 		isLoading.value = false
@@ -96,6 +61,7 @@ const handleOrganizeToggle = async (enabled: boolean) => {
 			<h2 class="mt-12 mb-4 text-lg font-medium">
 				Liked Songs
 			</h2>
+
 			<div class="space-y-4">
 				<FeatureToggleCard
 					title="Organize by genre"
@@ -104,6 +70,91 @@ const handleOrganizeToggle = async (enabled: boolean) => {
 					:loading="isLoading"
 					@toggle="handleOrganizeToggle"
 				/>
+
+				<div
+					v-if="isLoading"
+					class="p-4 bg-surface-default rounded-lg border space-y-3"
+				>
+					<div class="flex items-center space-x-3">
+						<div class="animate-spin h-4 w-4 border-2 border-text-primary border-t-transparent rounded-full" />
+						<p class="text-sm text-text-primary font-medium">
+							Organizing your music library...
+						</p>
+					</div>
+
+					<div class="text-xs text-text-secondary space-y-1">
+						<p>🎵 Analyzing your liked songs and creating genre playlists</p>
+						<p>⏱️ This may take a few moments for large libraries</p>
+						<p>✨ Your browser will stay responsive while we work!</p>
+					</div>
+
+					<div class="text-xs text-text-tertiary">
+						Processing on server... Feel free to browse other parts of the app.
+					</div>
+				</div>
+
+				<div
+					v-if="lastOrganizationResult && !isLoading"
+					class="p-4 bg-surface-default rounded-lg border"
+				>
+					<div
+						v-if="lastOrganizationResult.success"
+						class="space-y-2"
+					>
+						<p class="text-sm text-text-primary font-medium">
+							✅ {{ lastOrganizationResult.message }}
+						</p>
+
+						<div
+							v-if="'summary' in lastOrganizationResult"
+							class="text-xs text-text-secondary space-y-1"
+						>
+							<p>📊 Processed {{ lastOrganizationResult.summary.songsProcessed }} songs from your library</p>
+							<p>📁 Created {{ lastOrganizationResult.summary.playlistsCreated }} playlists</p>
+							<p>🎵 Organized {{ lastOrganizationResult.summary.totalTracks }} tracks total</p>
+						</div>
+
+						<div
+							v-else-if="'playlistsCreated' in lastOrganizationResult"
+							class="text-xs text-text-secondary"
+						>
+							<p>📁 Created {{ lastOrganizationResult.playlistsCreated }} playlists</p>
+							<p v-if="lastOrganizationResult.totalTracks > 0">
+								🎵 Organized {{ lastOrganizationResult.totalTracks }} tracks total
+							</p>
+						</div>
+
+						<div
+							v-if="lastOrganizationResult.playlists && lastOrganizationResult.playlists.length > 0"
+							class="mt-3"
+						>
+							<p class="text-xs text-text-tertiary mb-1">
+								Created playlists:
+							</p>
+							<div class="space-y-1">
+								<div
+									v-for="playlist in lastOrganizationResult.playlists"
+									:key="playlist.playlistId"
+									class="text-xs text-text-secondary"
+								>
+									🎼 {{ playlist.genre }} ({{ playlist.trackCount }} songs)
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div
+						v-else
+						class="space-y-2"
+					>
+						<p class="text-sm text-text-primary font-medium">
+							⚠️ {{ lastOrganizationResult.message }}
+						</p>
+						<p class="text-xs text-text-tertiary">
+							You can try again or check your Spotify permissions.
+						</p>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>

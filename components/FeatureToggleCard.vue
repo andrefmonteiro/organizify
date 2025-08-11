@@ -6,16 +6,11 @@ defineProps({
 	loading: Boolean,
 })
 
-// Define what events this component can emit
 const emit = defineEmits(['toggle'])
 
-// Track internal switch state
-const isEnabled = ref(false)
-
-// Handle switch change and emit to parent
 const handleSwitchChange = (newValue: boolean) => {
-	isEnabled.value = newValue
-	// Emit the change to the parent component
+	// Now we can use the emit function we captured abov
+	// The parent will decide how to handle state change
 	emit('toggle', newValue)
 }
 </script>
@@ -30,8 +25,9 @@ const handleSwitchChange = (newValue: boolean) => {
 				{{ description }}
 			</div>
 		</div>
+
 		<Switch
-			:model-value="isEnabled"
+			:model-value="enabled"
 			:disabled="loading"
 			@update:model-value="handleSwitchChange"
 		/>
