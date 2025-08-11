@@ -22,7 +22,7 @@ const handleLogin = async () => {
 				</h1>
 
 				<div class="max-w-2xl mx-auto mt-6">
-					<p class="text-lg leading-8 text-muted-foreground">
+					<p class="text-lg leading-8 text-text-secondary">
 						It's hard to be organized.
 						<br>
 						Organizify allows you to automatically organize your liked songs into neat playlists.
@@ -40,8 +40,8 @@ const handleLogin = async () => {
 
 					<Button
 						size="lg"
-						class="px-8 font-semibold"
-						variant="link"
+						class=" font-semibold"
+						variant="outline"
 						as-child
 					>
 						<a href="#how-it-works">

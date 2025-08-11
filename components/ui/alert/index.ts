@@ -11,7 +11,7 @@ export const alertVariants = cva(
 			variant: {
 				default: 'bg-card text-card-foreground',
 				destructive: 'text-destructive bg-card [&>svg]:text-current *:data-[slot=alert-description]:text-destructive/90',
-				warning: 'bg-amber-50 text-amber-900 border-amber-200 [&>svg]:text-amber-600 *:data-[slot=alert-description]:text-amber-800',
+				warning: 'bg-accent text-accent-foreground border-border [&>svg]:text-accent-foreground *:data-[slot=alert-description]:text-muted-foreground',
 			},
 
 		},
