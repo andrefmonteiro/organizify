@@ -1,16 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-/**
- * Core composable for organizing liked songs by genre
- * Handles artist data fetching, caching, and intelligent genre classification
- */
 
 export const useGenreOrganization = () => {
-	// Cache to store artist genre data (artistId -> genres array)
 	const artistCache = new Map<string, string[]>()
 
-	/**
-	 * Comprehensive genre mapping - maps Spotify's specific genres to broad categories
-	 */
 	const GENRE_MAPPING = {
 		Pop: [
 			'pop', 'dance pop', 'latin pop', 'new wave pop', 'indonesian pop', 'k-pop',
@@ -108,11 +100,7 @@ export const useGenreOrganization = () => {
 		],
 	}
 
-	/**
-	 * Maps specific Spotify genres to broad user-friendly categories
-	 */
 	const mapGenresToBroadCategories = (spotifyGenres: string[]): string => {
-		// Check each genre in priority order (first genre is most important)
 		for (const genreToCheck of spotifyGenres) {
 			// See if this specific genre matches any of our broad categories
 			for (const [broadGenre, subgenres] of Object.entries(GENRE_MAPPING)) {
@@ -202,9 +190,6 @@ export const useGenreOrganization = () => {
 		}
 	}
 
-	/**
-	 * MAIN FUNCTION: Organize all liked songs by genre
-	 */
 	const organizeByGenre = async (tracks: any[]) => {
 		console.log(`🎯 Organizing ${tracks.length} tracks by genre...`)
 
