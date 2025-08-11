@@ -58,7 +58,7 @@ const handleOrganizeToggle = async (enabled: boolean) => {
 <template>
 	<div class="w-full max-w-lg space-y-6">
 		<div>
-			<h2 class="mt-12 mb-4 text-lg font-medium">
+			<h2 class="mt-12 mb-4 text-lg font-semibold">
 				Liked Songs
 			</h2>
 
