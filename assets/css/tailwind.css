@@ -1,6 +1,6 @@
 @import "tailwindcss";
 @theme {
-	--color-surface-default: oklch(0.9587 0.0124 157);
+	--color-surface-default: oklch(94.566% 0.02647 163.41);
 	--color-surface-muted: oklch(87.745% 0.01182 154.075);
 
 	--color-text-primary: oklch(0.1893 0.0335 155.37);
