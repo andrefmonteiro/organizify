@@ -1,22 +1,21 @@
-<!-- eslint-disable @typescript-eslint/no-explicit-any -->
-
+<!-- components/LikedSongsOrganizationSettings.vue -->
 <script setup lang="ts">
+import { toast } from 'vue-sonner'
+
 const isOrganizing = ref<boolean>(false)
 const isLoading = ref<boolean>(false)
-
-const lastOrganizationResult = ref<any>(null)
 
 const handleOrganizeToggle = async (enabled: boolean) => {
 	if (!enabled) {
 		isOrganizing.value = false
 		isLoading.value = false
-		lastOrganizationResult.value = null
 		return
 	}
 
 	console.log('🎵 Starting server-side genre organization...')
 
-	lastOrganizationResult.value = null
+	isOrganizing.value = true
+	isLoading.value = true
 
 	try {
 		const result = await $fetch('/api/spotify/organize-liked-songs', {
@@ -27,27 +26,60 @@ const handleOrganizeToggle = async (enabled: boolean) => {
 			console.log('✅ Organization completed successfully!')
 
 			if ('summary' in result) {
-				console.log(`Created ${result.summary.playlistsCreated} playlists with ${result.summary.totalTracks} tracks`)
+				const { summary, playlists } = result
+
+				let description = `Processed ${summary.songsProcessed} songs from your library`
+				if (playlists && playlists.length > 0) {
+					description += '\n\nCreated playlists:\n'
+						+ playlists.map(p => `🎼 ${p.genre} (${p.trackCount} songs)`).join('\n')
+				}
+
+				toast.success('🎉 Music organized successfully!', {
+					style: {
+						background: '#6ee7b7',
+					},
+					description,
+					duration: 8000,
+					action: {
+						label: 'Dismiss',
+						onClick: () => console.log('Toast dismissed'),
+					},
+				})
+			}
+			else {
+				toast.success('🎉 Music organized successfully!', {
+					description: `Created ${result.playlistsCreated || 0} playlists`,
+					duration: 5000,
+				})
 			}
 
 			isOrganizing.value = true
-			lastOrganizationResult.value = result
 		}
 		else {
 			console.log('⚠️ Organization completed with issues:', result.message)
 
-			lastOrganizationResult.value = result
+			toast.warning('⚠️ Organization completed with issues', {
+				description: result.message,
+				duration: 6000,
+			})
+
+			isOrganizing.value = false
 		}
 	}
 	catch (error) {
 		const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred'
 		console.error('❌ Organization failed:', errorMessage)
 
+		toast.error('❌ Failed to organize music', {
+			description: 'Please try again or check your Spotify permissions.',
+			duration: 6000,
+			action: {
+				label: 'Retry',
+				onClick: () => handleOrganizeToggle(true),
+			},
+		})
+
 		isOrganizing.value = false
-		lastOrganizationResult.value = {
-			success: false,
-			message: `Failed to organize music: ${errorMessage}`,
-		}
 	}
 	finally {
 		isLoading.value = false
@@ -58,7 +90,7 @@ const handleOrganizeToggle = async (enabled: boolean) => {
 <template>
 	<div class="w-full max-w-lg space-y-6">
 		<div>
-			<h2 class="mt-12 mb-4 text-lg font-semibold">
+			<h2 class="mt-12 mb-4 text-lg font-medium">
 				Liked Songs
 			</h2>
 
@@ -82,77 +114,9 @@ const handleOrganizeToggle = async (enabled: boolean) => {
 						</p>
 					</div>
 
+					<!-- Helpful context for users -->
 					<div class="text-xs text-text-secondary space-y-1">
 						<p>🎵 Analyzing your liked songs and creating genre playlists</p>
-						<p>⏱️ This may take a few moments for large libraries</p>
-						<p>✨ Your browser will stay responsive while we work!</p>
-					</div>
-
-					<div class="text-xs text-text-tertiary">
-						Processing on server... Feel free to browse other parts of the app.
-					</div>
-				</div>
-
-				<div
-					v-if="lastOrganizationResult && !isLoading"
-					class="p-4 bg-surface-default rounded-lg border"
-				>
-					<div
-						v-if="lastOrganizationResult.success"
-						class="space-y-2"
-					>
-						<p class="text-sm text-text-primary font-medium">
-							✅ {{ lastOrganizationResult.message }}
-						</p>
-
-						<div
-							v-if="'summary' in lastOrganizationResult"
-							class="text-xs text-text-secondary space-y-1"
-						>
-							<p>📊 Processed {{ lastOrganizationResult.summary.songsProcessed }} songs from your library</p>
-							<p>📁 Created {{ lastOrganizationResult.summary.playlistsCreated }} playlists</p>
-							<p>🎵 Organized {{ lastOrganizationResult.summary.totalTracks }} tracks total</p>
-						</div>
-
-						<div
-							v-else-if="'playlistsCreated' in lastOrganizationResult"
-							class="text-xs text-text-secondary"
-						>
-							<p>📁 Created {{ lastOrganizationResult.playlistsCreated }} playlists</p>
-							<p v-if="lastOrganizationResult.totalTracks > 0">
-								🎵 Organized {{ lastOrganizationResult.totalTracks }} tracks total
-							</p>
-						</div>
-
-						<div
-							v-if="lastOrganizationResult.playlists && lastOrganizationResult.playlists.length > 0"
-							class="mt-3"
-						>
-							<p class="text-xs text-text-tertiary mb-1">
-								Created playlists:
-							</p>
-							<div class="space-y-1">
-								<div
-									v-for="playlist in lastOrganizationResult.playlists"
-									:key="playlist.playlistId"
-									class="text-xs text-text-secondary"
-								>
-									🎼 {{ playlist.genre }} ({{ playlist.trackCount }} songs)
-								</div>
-							</div>
-						</div>
-					</div>
-
-					<div
-						v-else
-						class="space-y-2"
-					>
-						<p class="text-sm text-text-primary font-medium">
-							⚠️ {{ lastOrganizationResult.message }}
-						</p>
-						<p class="text-xs text-text-tertiary">
-							You can try again or check your Spotify permissions.
-						</p>
 					</div>
 				</div>
 			</div>
