@@ -15,7 +15,7 @@ export const useAuthActions = () => {
 				console.error('❌ OAuth initiation failed', error)
 				throw error
 			}
-		} // isn't the if (error) and the catch (error) redundant? or are they 2 types of error?
+		}
 		catch (error) {
 			console.error('💥 Unexpected error during login: ', error)
 			throw error

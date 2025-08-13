@@ -97,8 +97,7 @@ const handleOrganizeToggle = async (enabled: boolean) => {
 			<div class="space-y-4">
 				<FeatureToggleCard
 					title="Organize by genre"
-					description="Creates genre-themed playlists of your Liked Songs"
-					:enabled="isOrganizing"
+					description="Syncs your Liked Songs with genre-themed playlists"
 					:loading="isLoading"
 					@toggle="handleOrganizeToggle"
 				/>
