@@ -68,12 +68,15 @@ export const useSpotifyApi = () => {
 	 * Internal helper function to fetch a batch of liked songs
 	 * This is used by getUserLikedSongs() to handle pagination
 	 */
-	const getBatchLikedSongs = async (limit: number, offset: number = 0) => {
+	const getBatchLikedSongs = async (accessToken: string, limit: number, offset: number = 0) => {
 		try {
-			return await $fetch('/api/spotify/user-liked-songs', {
+			return await $fetch('https://api.spotify.com/v1/me/tracks', {
 				query: {
 					limit: limit.toString(),
 					offset: offset.toString(),
+				},
+				headers: {
+					Authorization: `Bearer ${accessToken}`,
 				},
 			})
 		}
@@ -90,7 +93,7 @@ export const useSpotifyApi = () => {
 	 * Get ALL of the user's liked songs with automatic pagination
 	 * This function handles the complexity of fetching all songs across multiple API calls
 	 */
-	const getUserLikedSongs = async (token) => { // TODO token as param
+	const getUserLikedSongs = async (token: string) => { // TODO token as param
 		console.log('📦 Starting to fetch ALL liked songs...')
 
 		const allSongs: any[] = []
@@ -98,11 +101,10 @@ export const useSpotifyApi = () => {
 		const limit = 50 // Maximum allowed by Spotify per request
 		let hasMore = true
 
-		// Continue fetching until we have all song
 		while (hasMore) {
 			console.log(`📥 Fetching songs ${offset}-${offset + limit - 1}...`)
 
-			const batch = await getBatchLikedSongs(limit, offset)
+			const batch = await getBatchLikedSongs(token, limit, offset)
 			console.log(`📊 Batch info: got ${batch.items?.length} items, total available: ${batch.total}, our progress: ${allSongs.length}/${batch.total}`)
 
 			if (batch.items && batch.items.length > 0) {
@@ -126,7 +128,6 @@ export const useSpotifyApi = () => {
 			}
 		}
 
-		// Return in consistent format with total count
 		return {
 			items: allSongs,
 			total: allSongs.length,
