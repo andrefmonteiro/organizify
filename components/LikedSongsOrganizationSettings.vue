@@ -8,8 +8,10 @@ const syncLikedSongs = async () => {
 	try {
 		const result = await $fetch('/api/spotify/organize-liked-songs', {
 			method: 'POST',
-		})
-
+		},
+		)
+		console.log(`Result:\n ${result}`)
+		/*
 		if (result.success) {
 			console.log('✅ Organization completed successfully!')
 
@@ -49,6 +51,7 @@ const syncLikedSongs = async () => {
 				duration: 6000,
 			})
 		}
+		*/
 	}
 	catch (error) {
 		const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred'
@@ -64,7 +67,7 @@ const syncLikedSongs = async () => {
 		})
 	}
 	finally {
-		console.log('Sync ended')
+		console.log('\nSync ended')
 	}
 }
 </script>
@@ -78,11 +81,15 @@ const syncLikedSongs = async () => {
 
 			<FeatureCard
 				title="Organize by genre"
-				description="Syncs your Liked Songs with genre-themed playlists"
-			/>
-			<Button @click="syncLikedSongs">
-				Sync songs
-			</Button>
+				description="Sync your Liked Songs with genre-themed playlists"
+			>
+				<Button
+					class="cursor-pointer"
+					@click="syncLikedSongs"
+				>
+					Sync songs
+				</Button>
+			</FeatureCard>
 		</div>
 	</div>
 </template>

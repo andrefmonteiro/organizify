@@ -1,6 +1,5 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
 import { serverSupabaseSession } from '#supabase/server'
+import { useSpotifyApi } from '~/composables/useSpotifyApi'
 
 export default defineEventHandler(async (_event) => {
 	try {
@@ -21,6 +20,8 @@ export default defineEventHandler(async (_event) => {
 		const allLikedSongs = await getUserLikedSongs(session.provider_token)
 		console.log(`📦 Loaded ${allLikedSongs.total} songs from user's library`)
 
+		return allLikedSongs
+		/*
 		const { organizeByGenre } = useGenreOrganization()
 		const organizedSongs = await organizeByGenre(allLikedSongs.items)
 		console.log(`🎼 Organized songs into ${Object.keys(organizedSongs).length} genres`)
@@ -162,13 +163,12 @@ export default defineEventHandler(async (_event) => {
 
 		console.log(`🎊 Organization complete: ${JSON.stringify(finalResult.summary)}`)
 		return finalResult
+		*/
 	}
 	catch (error) {
-		// Log detailed error on server for debugging
 		const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred'
 		console.error('❌ Server-side organization failed:', errorMessage)
 
-		// Return sanitized error message to client
 		throw createError({
 			statusCode: 500,
 			statusMessage: 'Music organization failed',
