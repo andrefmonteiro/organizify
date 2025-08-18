@@ -21,7 +21,6 @@ export default defineEventHandler(async (event) => {
 			})
 		}
 
-		// ✅ FIXED: Proper URL construction with query parameters
 		const likedSongsUrl = new URL('https://api.spotify.com/v1/me/tracks')
 		likedSongsUrl.searchParams.set('limit', limit as string)
 		likedSongsUrl.searchParams.set('offset', offset as string)

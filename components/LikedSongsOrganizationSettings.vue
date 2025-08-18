@@ -2,20 +2,8 @@
 <script setup lang="ts">
 import { toast } from 'vue-sonner'
 
-const isOrganizing = ref<boolean>(false)
-const isLoading = ref<boolean>(false)
-
-const handleOrganizeToggle = async (enabled: boolean) => {
-	if (!enabled) {
-		isOrganizing.value = false
-		isLoading.value = false
-		return
-	}
-
+const syncLikedSongs = async () => {
 	console.log('🎵 Starting server-side genre organization...')
-
-	isOrganizing.value = true
-	isLoading.value = true
 
 	try {
 		const result = await $fetch('/api/spotify/organize-liked-songs', {
@@ -52,8 +40,6 @@ const handleOrganizeToggle = async (enabled: boolean) => {
 					duration: 5000,
 				})
 			}
-
-			isOrganizing.value = true
 		}
 		else {
 			console.log('⚠️ Organization completed with issues:', result.message)
@@ -62,8 +48,6 @@ const handleOrganizeToggle = async (enabled: boolean) => {
 				description: result.message,
 				duration: 6000,
 			})
-
-			isOrganizing.value = false
 		}
 	}
 	catch (error) {
@@ -75,14 +59,12 @@ const handleOrganizeToggle = async (enabled: boolean) => {
 			duration: 6000,
 			action: {
 				label: 'Retry',
-				onClick: () => handleOrganizeToggle(true),
+				onClick: () => syncLikedSongs(),
 			},
 		})
-
-		isOrganizing.value = false
 	}
 	finally {
-		isLoading.value = false
+		console.log('Sync ended')
 	}
 }
 </script>
@@ -94,31 +76,13 @@ const handleOrganizeToggle = async (enabled: boolean) => {
 				Liked Songs
 			</h2>
 
-			<div class="space-y-4">
-				<FeatureToggleCard
-					title="Organize by genre"
-					description="Syncs your Liked Songs with genre-themed playlists"
-					:loading="isLoading"
-					@toggle="handleOrganizeToggle"
-				/>
-
-				<div
-					v-if="isLoading"
-					class="p-4 bg-surface-default rounded-lg border space-y-3"
-				>
-					<div class="flex items-center space-x-3">
-						<div class="animate-spin h-4 w-4 border-2 border-text-primary border-t-transparent rounded-full" />
-						<p class="text-sm text-text-primary font-medium">
-							Organizing your music library...
-						</p>
-					</div>
-
-					<!-- Helpful context for users -->
-					<div class="text-xs text-text-secondary space-y-1">
-						<p>🎵 Analyzing your liked songs and creating genre playlists</p>
-					</div>
-				</div>
-			</div>
+			<FeatureCard
+				title="Organize by genre"
+				description="Syncs your Liked Songs with genre-themed playlists"
+			/>
+			<Button @click="syncLikedSongs">
+				Sync songs
+			</Button>
 		</div>
 	</div>
 </template>

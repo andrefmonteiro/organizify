@@ -2,15 +2,7 @@
 defineProps({
 	title: String,
 	description: String,
-	enabled: Boolean,
-	loading: Boolean,
 })
-
-const emit = defineEmits(['toggle'])
-
-const handleSwitchChange = (newValue: boolean) => {
-	emit('toggle', newValue)
-}
 </script>
 
 <template>
@@ -23,11 +15,5 @@ const handleSwitchChange = (newValue: boolean) => {
 				{{ description }}
 			</div>
 		</div>
-
-		<Switch
-			:model-value="enabled"
-			:disabled="loading"
-			@update:model-value="handleSwitchChange"
-		/>
 	</div>
 </template>

@@ -90,7 +90,7 @@ export const useSpotifyApi = () => {
 	 * Get ALL of the user's liked songs with automatic pagination
 	 * This function handles the complexity of fetching all songs across multiple API calls
 	 */
-	const getUserLikedSongs = async () => {
+	const getUserLikedSongs = async (token) => { // TODO token as param
 		console.log('📦 Starting to fetch ALL liked songs...')
 
 		const allSongs: any[] = []
@@ -98,7 +98,7 @@ export const useSpotifyApi = () => {
 		const limit = 50 // Maximum allowed by Spotify per request
 		let hasMore = true
 
-		// Continue fetching until we have all songs
+		// Continue fetching until we have all song
 		while (hasMore) {
 			console.log(`📥 Fetching songs ${offset}-${offset + limit - 1}...`)
 
@@ -138,7 +138,7 @@ export const useSpotifyApi = () => {
 	 * @param artistId - Spotify artist ID (e.g., from track.artists[0].id)
 	 * @returns Artist object with name, genres, popularity, followers, etc.
 	 */
-	const getArtistInfo = async (artistId: string) => {
+	const getArtistInfo = async (artistId: string) => { // TODO get the artists genre, return a record or object with the artist name and its first genre
 		try {
 			return await $fetch('/api/spotify/artist-info', {
 				query: { id: artistId },
@@ -159,7 +159,7 @@ export const useSpotifyApi = () => {
 	 * @param artistIds - Array of Spotify artist IDs (max 50 per Spotify's limit)
 	 * @returns Object containing array of artist objects
 	 */
-	const getMultipleArtistsInfo = async (artistIds: string[]) => {
+	const getMultipleArtistsInfo = async (artistIds: string[]) => { // TODO get the artists genre, return a record or object with the artist name and its first genre
 		try {
 			// Spotify API limit: max 50 artists per request
 			const limitedIds = artistIds.slice(0, 50)

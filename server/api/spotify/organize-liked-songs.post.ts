@@ -4,7 +4,6 @@ import { serverSupabaseSession } from '#supabase/server'
 
 export default defineEventHandler(async (_event) => {
 	try {
-		// Authentication check using server-side session
 		const session = await serverSupabaseSession(_event)
 		if (!session?.provider_token) {
 			throw createError({
@@ -19,15 +18,13 @@ export default defineEventHandler(async (_event) => {
 
 		console.log('🎵 Starting genre organization on server...')
 
-		// Step 1: Fetch all user's liked songs directly using Spotify API
-		// This replaces the useSpotifyApi() composable call
-		const allSongs = await getAllUserLikedSongs(session.provider_token)
-		console.log(`📦 Loaded ${allSongs.total} songs from user's library`)
+		const allLikedSongs = await getAllUserLikedSongs(session.provider_token) // TODO call composable instead with the session.provider_token
+		console.log(`📦 Loaded ${allLikedSongs.total} songs from user's library`)
 
 		// Step 2: Organize songs by genre using server-side implementation
 		// We implement this directly here instead of using the composable
 		// because the composable has dependencies on useSpotifyApi that don't work in server context
-		const organizedSongs = await organizeByGenreServerSide(allSongs.items, session.provider_token)
+		const organizedSongs = await organizeByGenreServerSide(allLikedSongs.items, session.provider_token)
 		console.log(`🎼 Organized songs into ${Object.keys(organizedSongs).length} genres`)
 
 		// Step 3: Filter and sort genres by song count
@@ -159,7 +156,7 @@ export default defineEventHandler(async (_event) => {
 				playlistsCreated,
 				totalTracks,
 				totalGenres: genreEntries.length,
-				songsProcessed: allSongs.total,
+				songsProcessed: allLikedSongs.total,
 			},
 			playlists: createdPlaylists,
 		}

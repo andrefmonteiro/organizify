@@ -142,7 +142,6 @@ export const useGenreOrganization = () => {
 
 		tracks.forEach((item) => {
 			// Handle different track formats: track on liked songs vs track on playlist
-
 			const track = item.track || item
 			const primaryArtist = track?.artists?.[0]
 			if (primaryArtist?.id) {
@@ -151,7 +150,7 @@ export const useGenreOrganization = () => {
 		})
 
 		const artistsToFetch = Array.from(uniqueArtistIds).filter(
-			artistId => !artistCache.has(artistId),
+			artistId => !artistCache.has(artistId), // TODO do we need this filter?
 		)
 
 		console.log(`🎭 Found ${uniqueArtistIds.size} unique artists, fetching ${artistsToFetch.length} new ones`)
@@ -162,7 +161,7 @@ export const useGenreOrganization = () => {
 	 * Fetch artist data in efficient batches and cache results
 	 */
 	const fetchAndCacheArtistData = async (artistIds: string[]) => {
-		const { getMultipleArtistsInfo } = useSpotifyApi()
+		const { getMultipleArtistsInfo } = useSpotifyApi() // TODO get multipleArtistsGenre
 
 		const batchSize = 50
 		let totalProcessed = 0
@@ -176,7 +175,7 @@ export const useGenreOrganization = () => {
 				if (artistData.artists) {
 					artistData.artists.forEach((artist: any) => {
 						if (artist?.id) {
-							artistCache.set(artist.id, artist.genres || [])
+							artistCache.set(artist.id, artist.genres || []) // TODO we just want the first genre
 						}
 					})
 				}
@@ -192,13 +191,20 @@ export const useGenreOrganization = () => {
 
 	const organizeByGenre = async (tracks: any[]) => {
 		console.log(`🎯 Organizing ${tracks.length} tracks by genre...`)
+		/* TODO
+		- For each track:
+			- get its first artist
+			-
+			- check if artist is on our cache
+				- if it is, put that track on the tracksByGenre Record (is this the appropriate data structure?)
+				- if not, get that arist genre
+		*/
 
 		const artistsToFetch = getArtistsToFetch(tracks)
 
 		if (artistsToFetch.length > 0) {
 			await fetchAndCacheArtistData(artistsToFetch)
 		}
-
 		const tracksByGenre: Record<string, any[]> = {}
 
 		tracks.forEach((item) => {
