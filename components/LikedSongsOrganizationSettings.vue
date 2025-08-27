@@ -3,14 +3,16 @@
 import { toast } from 'vue-sonner'
 
 const syncLikedSongs = async () => {
-	console.log('🎵 Starting server-side genre organization...')
+	console.log('🎵 Sync button clicked')
 
 	try {
 		const result = await $fetch('/api/spotify/organize-liked-songs', {
 			method: 'POST',
 		},
 		)
-		console.log(`Result:\n ${result}`)
+		for (const [key, value] of Object.entries(result)) {
+			console.log(`${key}: ${value}`)
+		}
 		/*
 		if (result.success) {
 			console.log('✅ Organization completed successfully!')
