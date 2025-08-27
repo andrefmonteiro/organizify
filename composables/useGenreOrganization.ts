@@ -89,20 +89,13 @@ export const useGenreOrganization = (token: string) => {
 			'samba', 'tango', 'flamenco', 'mariachi', 'tejano', 'latin rock',
 			'nueva cancion', 'bolero', 'mambo', 'cha cha cha', 'rumba',
 		],
-		Anime_Japanese: [
-			'anime', 'otacore', 'pixel', 'vocaloid',
-		],
-		Gospel_Worship: [
-			'christian music', 'worship', 'ccm', 'adoracao', 'gospel',
-		],
 		Downtempo: [
-			'trip hop',
+			'trip hop', 'trip-hop', 'downtempo',
 		],
 	}
 
 	const mapGenresToBroadCategories = (spotifyGenres: string[]): string => {
 		for (const genreToCheck of spotifyGenres) {
-			// See if this specific genre matches any of our broad categories
 			for (const [broadGenre, subgenres] of Object.entries(GENRE_MAPPING)) {
 				const hasMatch = subgenres.some(mappedGenre =>
 					genreToCheck.toLowerCase().includes(mappedGenre.toLowerCase()),
@@ -120,18 +113,13 @@ export const useGenreOrganization = (token: string) => {
 			Hip_Hop: 'Hip-Hop',
 			R_and_B: 'R&B',
 			Folk_Acoustic: 'Folk/Acoustic',
-			Anime_Japanese: 'Anime/Japanese',
-			Gospel_Worship: 'Gospel/Worship',
-			// For any genres that don't have special formatting needs,
-			// we'll just replace underscores with spaces
 		}
 
-		// If we have an explicit mapping, use it
 		if (genreNameMappings[internalGenreName]) {
 			return genreNameMappings[internalGenreName]
 		}
 
-		// For genres not in our mapping, default to replacing underscores with spaces
+		// default to replacing underscores with spaces
 		return internalGenreName.replace(/_/g, ' ')
 	}
 
