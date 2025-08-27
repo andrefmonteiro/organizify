@@ -93,7 +93,7 @@ export const useSpotifyApi = () => {
 	 * Get ALL of the user's liked songs with automatic pagination
 	 * This function handles the complexity of fetching all songs across multiple API calls
 	 */
-	const getUserLikedSongs = async (token: string) => { // TODO token as param
+	const getUserLikedSongs = async (token: string) => {
 		console.log('📦 Starting to fetch ALL liked songs...')
 
 		const allLikedSongs: any[] = []
@@ -102,18 +102,13 @@ export const useSpotifyApi = () => {
 		let hasMore = true
 
 		while (hasMore) {
-			console.log(`📥 Fetching songs ${offset}-${offset + limit - 1}...`)
-
 			const batch = await getBatchLikedSongs(token, limit, offset)
-			console.log(`📊 Batch info: got ${batch.items?.length} items, total available: ${batch.total}, our progress: ${allLikedSongs.length}/${batch.total}`)
 
 			if (batch.items && batch.items.length > 0) {
 				allLikedSongs.push(...batch.items)
-				console.log(`✅ Got ${batch.items.length} songs. Total so far: ${allLikedSongs.length}`)
 
 				if (batch.items.length < limit || allLikedSongs.length >= batch.total) {
 					hasMore = false
-					console.log(`🎯 Finished! Got all ${allLikedSongs.length} liked songs`)
 				}
 				else {
 					offset += limit
@@ -121,10 +116,9 @@ export const useSpotifyApi = () => {
 			}
 			else {
 				hasMore = false
-				console.log('🔚 No more songs to fetch')
 			}
 		}
-
+		console.log(`Processed ${allLikedSongs.length} liked songs.`)
 		return {
 			items: allLikedSongs,
 			total: allLikedSongs.length,
@@ -157,21 +151,21 @@ export const useSpotifyApi = () => {
 	 * @param artistIds - Array of Spotify artist IDs (max 50 per Spotify's limit)
 	 * @returns Object containing array of artist objects
 	 */
-	const getMultipleArtistsInfo = async (artistIds: string[]) => { // TODO get the artists genre, return a record or object with the artist name and its first genre
-		try {
-			// Spotify API limit: max 50 artists per request
-			const limitedIds = artistIds.slice(0, 50)
-			return await $fetch('/api/spotify/artist-info', {
-				query: { ids: limitedIds.join(',') },
+	const getMultipleArtistsInfo = async (artistIds: string[], token?: string) => {
+		const limitedIds = artistIds.slice(0, 50)
+
+		if (token) {
+			// Direct Spotify call (server-side)
+			return await $fetch(`https://api.spotify.com/v1/artists?ids=${limitedIds.join(',')}`, {
+				headers: {
+					'Authorization': `Bearer ${token}`,
+					'Content-Type': 'application/json',
+				},
 			})
 		}
-		catch (error: any) {
-			if (error.data?.code === 'no_provider_tokens') {
-				console.log('🚨 EDGE CASE: Using client-side tokens for getMultipleArtistsInfo')
-				const limitedIds = artistIds.slice(0, 50)
-				return await makeClientSideSpotifyCall(`/artists?ids=${limitedIds.join(',')}`)
-			}
-			throw error
+		else {
+			// Client-side fallback
+			return await makeClientSideSpotifyCall(`/artists?ids=${limitedIds.join(',')}`)
 		}
 	}
 
