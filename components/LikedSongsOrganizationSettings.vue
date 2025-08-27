@@ -10,9 +10,29 @@ const syncLikedSongs = async () => {
 			method: 'POST',
 		},
 		)
-		for (const [key, value] of Object.entries(result)) {
-			console.log(`${key}: ${value}`)
+		const organizedGenres: string[] = []
+
+		for (const [genre] of Object.entries(result)) {
+			organizedGenres.push(genre)
 		}
+		let genresStr: string = ''
+		if (organizedGenres.length === 2) {
+			genresStr = organizedGenres.join(' and ')
+		}
+		else {
+			genresStr = organizedGenres.slice(0, -1).join(', ') + ', and ' + organizedGenres.slice(-1)
+		}
+
+		toast.success('🎉 You\'ve organized your liked songs!', {
+			style: {
+				background: '#6ee7b7',
+			},
+			description: `Added songs for the following genres: ${genresStr} `,
+			duration: 8000,
+			action: {
+				label: 'Dismiss',
+			},
+		})
 		/*
 		if (result.success) {
 			console.log('✅ Organization completed successfully!')
