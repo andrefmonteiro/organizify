@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-export const useGenreOrganization = () => {
-	const artistCache = new Map<string, string[]>()
+import { useSpotifyApi } from './useSpotifyApi'
 
+export const useGenreOrganization = (token: string) => {
 	const GENRE_MAPPING = {
 		Pop: [
 			'pop', 'dance pop', 'latin pop', 'new wave pop', 'indonesian pop', 'k-pop',
@@ -114,6 +114,7 @@ export const useGenreOrganization = () => {
 		}
 		return 'Other'
 	}
+
 	const formatGenreName = (internalGenreName: string): string => {
 		const genreNameMappings: Record<string, string> = {
 			Hip_Hop: 'Hip-Hop',
@@ -134,81 +135,49 @@ export const useGenreOrganization = () => {
 		return internalGenreName.replace(/_/g, ' ')
 	}
 
-	/**
-	 * Extract unique artist IDs from liked songs (first artist only)
-	 */
-	const getArtistsToFetch = (tracks: any[]): string[] => {
-		const uniqueArtistIds = new Set<string>()
+	const organizeByGenre = async (tracks: any[]) => {
+		console.log(`🎯 Organizing ${tracks.length} tracks by genre...`)
+		const artistCache = new Map<string, string[]>()
 
+		// Get unique artists id
+		const uniqueArtistIds = new Set<string>()
 		tracks.forEach((item) => {
-			// Handle different track formats: track on liked songs vs track on playlist
 			const track = item.track || item
 			const primaryArtist = track?.artists?.[0]
-			if (primaryArtist?.id) {
-				uniqueArtistIds.add(primaryArtist.id)
-			}
+			if (primaryArtist) uniqueArtistIds.add(primaryArtist.id)
 		})
 
-		const artistsToFetch = Array.from(uniqueArtistIds).filter(
-			artistId => !artistCache.has(artistId), // TODO do we need this filter?
-		)
+		console.log(`Found ${uniqueArtistIds.size} unique artists.`)
 
-		console.log(`🎭 Found ${uniqueArtistIds.size} unique artists, fetching ${artistsToFetch.length} new ones`)
-		return artistsToFetch
-	}
-
-	/**
-	 * Fetch artist data in efficient batches and cache results
-	 */
-	const fetchAndCacheArtistData = async (artistIds: string[]) => {
-		const { getMultipleArtistsInfo } = useSpotifyApi() // TODO get multipleArtistsGenre
-
+		// Fetch artists' data
+		const { getMultipleArtistsInfo } = useSpotifyApi()
+		const artistsIds = Array.from(uniqueArtistIds)
 		const batchSize = 50
-		let totalProcessed = 0
 
-		for (let i = 0; i < artistIds.length; i += batchSize) {
-			const batch = artistIds.slice(i, i + batchSize)
+		for (let i = 0; i < artistsIds.length; i += batchSize) {
+			const batch = artistsIds.slice(i, i + batchSize)
 
 			try {
-				const artistData = await getMultipleArtistsInfo(batch)
+				const artistData = await getMultipleArtistsInfo(batch, token)
 
 				if (artistData.artists) {
 					artistData.artists.forEach((artist: any) => {
 						if (artist?.id) {
-							artistCache.set(artist.id, artist.genres || []) // TODO we just want the first genre
+							artistCache.set(artist.id, artist.genres || [])
 						}
 					})
 				}
-
-				totalProcessed += batch.length
-				console.log(`✅ Fetched artist data: ${totalProcessed}/${artistIds.length}`)
+				console.log(`Fetched artist data: ${i + batch.length}/${artistsIds.length}`)
 			}
 			catch (error) {
-				console.error(`❌ Error fetching artist batch:`, error)
+				console.error(`Error fetching artist batch: ${error}`)
 			}
 		}
-	}
 
-	const organizeByGenre = async (tracks: any[]) => {
-		console.log(`🎯 Organizing ${tracks.length} tracks by genre...`)
-		/* TODO
-		- For each track:
-			- get its first artist
-			-
-			- check if artist is on our cache
-				- if it is, put that track on the tracksByGenre Record (is this the appropriate data structure?)
-				- if not, get that arist genre
-		*/
-
-		const artistsToFetch = getArtistsToFetch(tracks)
-
-		if (artistsToFetch.length > 0) {
-			await fetchAndCacheArtistData(artistsToFetch)
-		}
+		// Organize tracks by genre
 		const tracksByGenre: Record<string, any[]> = {}
 
 		tracks.forEach((item) => {
-			// Handle different track formats: track on liked songs vs track on playlist
 			const track = item.track || item
 			const primaryArtist = track?.artists?.[0]
 
@@ -221,6 +190,13 @@ export const useGenreOrganization = () => {
 				}
 
 				tracksByGenre[broadGenre].push(item)
+			}
+			else {
+				// Handle tracks without artist info
+				if (!tracksByGenre['Other']) {
+					tracksByGenre['Other'] = []
+				}
+				tracksByGenre['Other'].push(item)
 			}
 		})
 

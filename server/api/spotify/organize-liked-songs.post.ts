@@ -1,5 +1,6 @@
 import { serverSupabaseSession } from '#supabase/server'
 import { useSpotifyApi } from '~/composables/useSpotifyApi'
+import { useGenreOrganization } from '~/composables/useGenreOrganization'
 
 export default defineEventHandler(async (_event) => {
 	try {
@@ -20,12 +21,14 @@ export default defineEventHandler(async (_event) => {
 		const allLikedSongs = await getUserLikedSongs(session.provider_token)
 		console.log(`📦 Loaded ${allLikedSongs.total} songs from user's library`)
 
-		return allLikedSongs
-		/*
-		const { organizeByGenre } = useGenreOrganization()
-		const organizedSongs = await organizeByGenre(allLikedSongs.items)
-		console.log(`🎼 Organized songs into ${Object.keys(organizedSongs).length} genres`)
+		// return allLikedSongs
 
+		const { organizeByGenre } = useGenreOrganization(session.provider_token)
+		const organizedSongs = await organizeByGenre(allLikedSongs.items)
+
+		return organizedSongs
+
+		/*
 		// Step 3: Filter and sort genres by song count
 		const genreEntries = Object.entries(organizedSongs)
 			.filter(([_genre, songs]) => songs.length > 0)
@@ -163,8 +166,9 @@ export default defineEventHandler(async (_event) => {
 
 		console.log(`🎊 Organization complete: ${JSON.stringify(finalResult.summary)}`)
 		return finalResult
-		*/
+	*/
 	}
+
 	catch (error) {
 		const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred'
 		console.error('❌ Server-side organization failed:', errorMessage)
