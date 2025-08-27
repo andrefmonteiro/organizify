@@ -9,8 +9,8 @@ const handleLogin = async () => {
 </script>
 
 <template>
-	<header class="fixed inset-x-0 z-50 top-02 bg-muted">
-		<nav class="flex items-center justify-between px-6 py-4 lg:px-8">
+	<header class="col-span-full">
+		<nav class="flex justify-between px-6 py-4">
 			<div class="flex items-center">
 				<NuxtLink
 					to="/"
