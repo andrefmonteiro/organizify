@@ -54,23 +54,21 @@ const syncLikedSongs = async () => {
 </script>
 
 <template>
-	<div class="w-full max-w-lg space-y-6">
-		<div>
-			<h2 class="mt-12 mb-4 text-lg font-medium">
-				Liked Songs
-			</h2>
+	<div class="max-w-xl space-y-6">
+		<h2 class="mt-12 mb-4 text-xl font-medium">
+			Liked Songs Organization
+		</h2>
 
-			<FeatureCard
-				title="Organize by genre"
-				description="Sync your Liked Songs with genre-themed playlists"
+		<FeatureCard
+			title="Organize by genre"
+			description="Sync your Liked Songs with genre-themed playlists"
+		>
+			<Button
+				class="cursor-pointer"
+				@click="syncLikedSongs"
 			>
-				<Button
-					class="cursor-pointer"
-					@click="syncLikedSongs"
-				>
-					Sync songs
-				</Button>
-			</FeatureCard>
-		</div>
+				Organize songs
+			</Button>
+		</FeatureCard>
 	</div>
 </template>
