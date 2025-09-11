@@ -1,3 +1,4 @@
+<!-- pages/dashboard.vue -->
 <script setup>
 import { TriangleAlert } from 'lucide-vue-next'
 import Alert from '~/components/ui/alert/Alert.vue'
@@ -5,21 +6,8 @@ import AlertDescription from '~/components/ui/alert/AlertDescription.vue'
 import AlertTitle from '~/components/ui/alert/AlertTitle.vue'
 
 const { signInWithSpotify } = useAuthActions()
-const { hasValidPermissions, validateSessionPermissions } = useSpotifyPermissions()
+const { hasValidPermissions } = useSpotifyPermissions()
 const { displayName } = useSpotifyProfile()
-
-onMounted(async () => {
-	try {
-		await validateSessionPermissions()
-	}
-	catch (error) {
-		console.error('💥 Error during Spotify diagnostic:', error)
-	}
-})
-
-const handleReconnect = async () => {
-	await signInWithSpotify()
-}
 </script>
 
 <template>
@@ -31,7 +19,7 @@ const handleReconnect = async () => {
 		>
 			<TriangleAlert class="w-4 h-4" />
 			<AlertTitle class="text-base font-bold">
-				You're not connected
+				Permissions revoked
 			</AlertTitle>
 			<AlertDescription class="mt-2 text-base">
 				Your Spotify permissions have been revoked or expired.
@@ -41,20 +29,17 @@ const handleReconnect = async () => {
 				<Button
 					size=""
 					class="mt-4 cursor-pointer"
-					@click="handleReconnect"
+					@click="signInWithSpotify"
 				>
-					Reconnect Spotify
+					Connect Spotify
 				</Button>
 			</div>
 		</Alert>
+
 		<h1 class="pt-16 pb-6 text-3xl font-bold tracking-tight sm:text-4xl">
 			Hello{{ displayName ? `, ${displayName}` : '' }}!
 		</h1>
 		<Separator />
-		<div
-			:class="{ 'opacity-50 pointer-events-none': !hasValidPermissions }"
-		>
-			<LikedSongsOrganizationSettings />
-		</div>
+		<LikedSongsOrganizationSettings />
 	</div>
 </template>
