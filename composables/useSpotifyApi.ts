@@ -15,9 +15,11 @@ export const useSpotifyApi = () => {
 			},
 		})
 
+		// In useSpotifyApi.ts, line ~20, update the error handling:
 		if (!response.ok) {
-			console.error(`Spotify API error: ${response.status} ${response.statusText}`)
-			throw new Error(`Spotify API error: ${response.status} ${response.statusText}`)
+			const errorBody = await response.text()
+			console.error(`Spotify API error details:`, errorBody)
+			throw new Error(`Spotify API error: ${response.status} ${response.statusText} - ${errorBody}`)
 		}
 
 		return await response.json()
