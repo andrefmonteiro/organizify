@@ -41,5 +41,6 @@ const { displayName } = useSpotifyProfile()
 		</h1>
 		<Separator />
 		<LikedSongsOrganizationSettings />
+		<AccountSettings />
 	</div>
 </template>

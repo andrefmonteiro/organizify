@@ -28,7 +28,7 @@
 	--color-accent: var(--color-surface-muted);
 	--color-accent-foreground: var(--color-text-primary);
 	
-	--color-destructive: rgb(239 68 68);
+	--color-destructive: hsl(0, 79%, 44%);
 	--color-destructive-foreground: var(--color-surface-default);
 }
 /* 
