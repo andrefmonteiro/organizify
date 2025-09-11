@@ -1,9 +1,16 @@
 <!-- eslint-disable @typescript-eslint/no-explicit-any -->
+
 <script setup lang="ts">
 import { toast } from 'vue-sonner'
 
-// Loading state for better UX
 const isLoading = ref(false)
+
+const formatGenreList = (genres: string[]): string => {
+	if (genres.length === 0) return ''
+	if (genres.length === 1) return genres[0]!
+	if (genres.length === 2) return `${genres[0]} and ${genres[1]}`
+	return `${genres.slice(0, -1).join(', ')}, and ${genres[genres.length - 1]}`
+}
 
 const syncLikedSongs = async () => {
 	console.log('🎵 Sync button clicked')
@@ -14,11 +21,8 @@ const syncLikedSongs = async () => {
 			method: 'POST',
 		})
 
-		// Handle the new structured response
 		if (result.success) {
-			// Show success toast with detailed information
-			if (result.newSongsProcessed === 0) {
-				// No new songs case
+			if (result.totalSongsAdded === 0) {
 				toast.success('🎉 Music already organized!', {
 					style: {
 						background: '#6ee7b7',
@@ -31,11 +35,31 @@ const syncLikedSongs = async () => {
 				})
 			}
 			else {
+				const parts: string[] = []
+
+				const createdGenres = (result as any).createdGenres || []
+				if (createdGenres.length > 0) {
+					const createdList = formatGenreList(createdGenres)
+					parts.push(`Created: ${createdList}`)
+				}
+
+				const updatedGenres = (result as any).updatedGenres || []
+				if (updatedGenres.length > 0) {
+					const updatedList = formatGenreList(updatedGenres)
+					parts.push(`Updated: ${updatedList}`)
+				}
+
+				const description = (result as any).genreBreakdown && (result as any).genreBreakdown.length > 0
+					? (result as any).genreBreakdown
+							.map(({ genre, count }: { genre: string, count: number }) => `• ${count} ${genre} song${count === 1 ? '' : 's'}`)
+							.join('\n')
+					: `Organized ${result.newSongsProcessed} new songs`
+
 				toast.success('🎉 Successfully organized your music!', {
 					style: {
 						background: '#6ee7b7',
 					},
-					description: result.message, // Just use the endpoint's message
+					description,
 					duration: 8000,
 					action: {
 						label: 'Dismiss',
@@ -44,14 +68,12 @@ const syncLikedSongs = async () => {
 			}
 		}
 		else {
-			// Handle case where success is false
 			throw new Error(result.message || 'Organization failed')
 		}
 	}
 	catch (error: any) {
 		console.error('❌ Organization failed:', error)
 
-		// Show more specific error messages based on error codes
 		let errorTitle = '❌ Failed to organize music'
 		let errorDescription = 'Please try again later.'
 		let showReconnectAction = false
@@ -90,29 +112,32 @@ const syncLikedSongs = async () => {
 </script>
 
 <template>
-	<div class="max-w-xl space-y-6">
-		<h2 class="mt-12 mb-6 text-xl font-medium">
-			Liked Songs Organization
-		</h2>
+	<div class="w-full max-w-xl space-y-6">
+		<div>
+			<h2 class="mt-12 mb-4 text-lg font-medium">
+				Liked Songs
+			</h2>
 
-		<FeatureCard
-			title="Organize by genre"
-			description="Sync your Liked Songs with genre-themed playlists"
-		>
-			<Button
-				class="cursor-pointer"
-				:disabled="isLoading"
-				@click="syncLikedSongs"
+			<FeatureCard
+				title="Organize by genre"
+				description="Sync your Liked Songs with genre-themed playlists"
 			>
-				<span
-					v-if="isLoading"
-					class="flex items-center gap-2"
+				<Button
+					class="cursor-pointer ml-12"
+					:disabled="isLoading"
+					@click="syncLikedSongs"
 				>
-					<div class="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin" />
-					Organizing...
-				</span>
-				<span v-else>Organize songs</span>
-			</Button>
-		</FeatureCard>
+					<span
+						v-if="isLoading"
+						class="flex items-center gap-2"
+					>
+
+						<div class="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin" />
+						Organizing...
+					</span>
+					<span v-else>Organize songs</span>
+				</Button>
+			</FeatureCard>
+		</div>
 	</div>
 </template>

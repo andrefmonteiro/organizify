@@ -22,4 +22,8 @@ const props = defineProps<ToasterProps>()
 	min-width: 420px !important;
 	max-width: 500px !important;
 }
+
+:deep([data-sonner-toast] [data-description]) {
+	white-space: pre-line !important;
+}
 </style>
