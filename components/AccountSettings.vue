@@ -2,12 +2,12 @@
 <script setup lang="ts">
 import { Trash2 } from 'lucide-vue-next'
 
-const isDeleteDialogOpen = ref(false)
-
 const handleDeleteAccount = async () => {
-	// TODO: Add account deletion functionality
 	console.log('Account deletion requested')
-	isDeleteDialogOpen.value = false
+	await $fetch('/api/auth/delete-account', { method: 'POST' })
+	const { signOut } = useAuthActions()
+	signOut()
+	await navigateTo('/')
 }
 </script>
 
@@ -22,7 +22,7 @@ const handleDeleteAccount = async () => {
 				title="Delete account"
 				description="Permanently delete your account and all your data"
 			>
-				<AlertDialog v-model:open="isDeleteDialogOpen">
+				<AlertDialog>
 					<AlertDialogTrigger as-child>
 						<Button
 							variant="destructive"
