@@ -8,22 +8,12 @@ Organizify analyzes your Spotify liked songs and automatically creates separate 
 
 ## How it works
 
-Connect your Spotify account, click "Organize by Genre," and wait while the app:
+1. Genre Detection: Fetches artist data from Spotify API to determine genres
+2. Playlist Creation: Generates private playlists with custom covers for each genre
+3. Incremental Sync: Only processes new liked songs to avoid reprocessing your entire library
+4. Track Validation: Filters invalid tracks and handles edge cases
 
-1. Reads your liked songs
-2. Identifies each song's genre using artist data  
-3. Creates genre-based playlists in your Spotify account
-4. Adds your songs to the appropriate playlists
+Stack: Nuxt.js, Tailwind CSS, Supabase, Spotify Web API
 
-## Getting started
-
-1. Visit the app and log in with your Spotify account
-2. Make sure you have some liked songs in your Spotify library
-3. Click the "Organize by Genre" toggle on your dashboard
-4. Wait for the process to complete
-
-Your original liked songs remain untouched - this only creates new organized playlists.
-
-## Built with
-
-Nuxt.js, Tailwind CSS, Supabase, and the Spotify Web API.
+Access
+Due to Spotify's API restrictions, Organizify is invite-only and limited to 25 users. Read about it and request access at organizify.app/announcement.
