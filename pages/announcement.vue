@@ -60,7 +60,7 @@ const submitEmail = async () => {
 				<p>
 					If you'd like access, we need to manually add you. You can leave your email and we'll let you once you can start using the app.
 				</p>
-				<div class="space-y-4 mt-8 p-6 bg-surface-muted rounded-lg">
+				<div class="space-y-4 mt-8 p-6 bg-brand-green-muted rounded-lg">
 					<h3 class="text-lg font-semibold text-text-primary">
 						Request Access
 					</h3>

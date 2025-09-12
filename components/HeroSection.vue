@@ -18,21 +18,21 @@ const handleLogin = async () => {
 		<div class="py-20 sm:py-24 lg:py-32">
 			<div class="text-center">
 				<h1 class="text-4xl font-bold text-balance sm:text-6xl">
-					Declutter your Liked Songs
+					Tidy up your Liked Songs
 				</h1>
 
 				<div class="max-w-2xl mx-auto mt-6">
 					<p class="text-lg leading-8 text-text-secondary">
-						It's hard to be organized.
+						We know it's hard to stay organized.
 						<br>
-						Organizify allows you to automatically organize your liked songs into neat playlists.
+						Organizify analyzes your Spotify liked songs and creates genre-based playlists.
 					</p>
 				</div>
 
 				<div class="flex items-center justify-center mt-10 gap-x-6">
 					<Button
 						size="lg"
-						class="px-8 cursor-pointer"
+						class="px-8 cursor-pointer bg-brand-green hover:bg-brand-green-light"
 						@click="handleLogin"
 					>
 						Try it
