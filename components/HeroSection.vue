@@ -21,7 +21,7 @@ const handleLogin = async () => {
 					Tidy up your Liked Songs
 				</h1>
 
-				<div class="max-w-2xl mx-auto mt-6">
+				<div class="max-w-2xl mx-auto mt-4">
 					<p class="text-lg leading-8 text-text-secondary">
 						We know it's hard to stay organized.
 						<br>
