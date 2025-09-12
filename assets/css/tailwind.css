@@ -2,6 +2,7 @@
 @theme {
 	--color-surface-default: oklch(96.302% 0.00995 165.474);
 	--color-surface-muted: oklch(87.745% 0.01182 154.075);
+	--color-surface-green: oklch(83.943% 0.10511 179.395);
 
 	--color-text-primary: oklch(0.1893 0.0335 155.37);
 	--color-text-secondary: oklch(55.562% 0.0253 159.805);
