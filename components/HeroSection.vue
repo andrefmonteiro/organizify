@@ -17,7 +17,7 @@ const handleLogin = async () => {
 	<div class="relative isolate">
 		<div class="py-20 sm:py-24 lg:py-32">
 			<div class="text-center">
-				<h1 class="text-4xl font-bold text-balance sm:text-6xl">
+				<h1 class="text-4xl text-balance sm:text-6xl font-display font-extrabold tracking-tight">
 					Tidy up your Liked Songs
 				</h1>
 
@@ -53,3 +53,7 @@ const handleLogin = async () => {
 		</div>
 	</div>
 </template>
+
+<style>
+
+</style>

@@ -10,6 +10,7 @@
 	--color-text-primary: oklch(0.1893 0.0335 155.37);
 	--color-text-secondary: oklch(55.562% 0.0253 159.805);
 	--color-text-tertiary: oklch(67.155% 0.02154 159.666);
+	--font-display: 'Raleway', 'sans-serif';
 
 	--color-background: var(--color-surface-default);
 	--color-card: var(--color-surface-default);
@@ -51,5 +52,7 @@ overflow-y: auto;
 
 body {
 	@apply bg-surface-default text-text-primary;
+	font-family: 'Geist';
+
 }
 

@@ -30,6 +30,11 @@ export default defineNuxtConfig({
 			},
 		},
 	},
+	fonts: {
+		defaults: {
+			weights: [400, 700, 800],
+		},
+	},
 	shadcn: {
 		prefix: '',
 		/**
