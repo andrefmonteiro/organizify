@@ -3,7 +3,6 @@
 import { Trash2 } from 'lucide-vue-next'
 
 const handleDeleteAccount = async () => {
-	console.log('Account deletion requested')
 	await $fetch('/api/auth/delete-account', { method: 'POST' })
 	const { signOut } = useAuthActions()
 	signOut()

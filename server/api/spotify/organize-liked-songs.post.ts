@@ -61,14 +61,9 @@ export default defineEventHandler(async (event) => {
 
 		const organizedSongs = await organizeByGenre(unprocessedSongs)
 
-		// Filter out empty genres
 		const genreEntries = Object.entries(organizedSongs)
 			.filter(([_genre, songs]) => songs.length > 0)
 			.sort(([, songsA], [, songsB]) => songsB.length - songsA.length)
-
-		genreEntries.forEach(([genre, songs]) => {
-			console.log(`  ${genre}: ${songs.length} songs`)
-		})
 
 		const userProfile = await getUserProfile(session.provider_token)
 		const spotifyUserId = userProfile.id
@@ -80,7 +75,6 @@ export default defineEventHandler(async (event) => {
 
 		for (const [genre, songs] of genreEntries) {
 			try {
-				// Check if user already has a playlist for this genre
 				const { playlistId: existingPlaylistId, columnName } = await getPlaylistIdForGenre(user.id, genre)
 
 				let playlistId: string
@@ -106,7 +100,7 @@ export default defineEventHandler(async (event) => {
 					await storePlaylistId(user.id, columnName, playlistId)
 
 					playlistsCreated++
-					// add image cover to the playlist
+
 					const imageFileName = getImageFileNameForGenre(genre)
 					await addImageToPlaylist(playlistId, imageFileName, session.provider_token)
 				}
@@ -115,7 +109,6 @@ export default defineEventHandler(async (event) => {
 					const track = item.track || item
 					return track?.id
 				}).filter((id) => {
-					// Validate Spotify track ID format (22 chars, alphanumeric)
 					if (!id || typeof id !== 'string') return false
 					if (id.length !== 22) return false
 					if (!/^[a-zA-Z0-9]+$/.test(id)) return false

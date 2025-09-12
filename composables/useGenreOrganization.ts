@@ -119,15 +119,12 @@ export const useGenreOrganization = (token: string) => {
 			return genreNameMappings[internalGenreName]
 		}
 
-		// default to replacing underscores with spaces
 		return internalGenreName.replace(/_/g, ' ')
 	}
 
 	const organizeByGenre = async (tracks: any[]) => {
-		console.log(`🎯 Organizing ${tracks.length} tracks by genre...`)
 		const artistCache = new Map<string, string[]>()
 
-		// Get unique artists id
 		const uniqueArtistIds = new Set<string>()
 		tracks.forEach((item) => {
 			const track = item.track || item
@@ -135,9 +132,6 @@ export const useGenreOrganization = (token: string) => {
 			if (primaryArtist) uniqueArtistIds.add(primaryArtist.id)
 		})
 
-		console.log(`Found ${uniqueArtistIds.size} unique artists.`)
-
-		// Fetch artists' data
 		const { getMultipleArtistsInfo } = useSpotifyApi()
 		const artistsIds = Array.from(uniqueArtistIds)
 		const batchSize = 50
@@ -155,14 +149,12 @@ export const useGenreOrganization = (token: string) => {
 						}
 					})
 				}
-				console.log(`Fetched artist data: ${i + batch.length}/${artistsIds.length}`)
 			}
 			catch (error) {
 				console.error(`Error fetching artist batch: ${error}`)
 			}
 		}
 
-		// Organize tracks by genre
 		const tracksByGenre: Record<string, any[]> = {}
 
 		tracks.forEach((item) => {
@@ -180,7 +172,6 @@ export const useGenreOrganization = (token: string) => {
 				tracksByGenre[broadGenre].push(item)
 			}
 			else {
-				// Handle tracks without artist info
 				if (!tracksByGenre['Other']) {
 					tracksByGenre['Other'] = []
 				}
@@ -188,7 +179,6 @@ export const useGenreOrganization = (token: string) => {
 			}
 		})
 
-		console.log(`✅ Organization complete: ${Object.keys(tracksByGenre).length} categories created`)
 		return tracksByGenre
 	}
 

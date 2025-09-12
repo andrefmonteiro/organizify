@@ -9,12 +9,10 @@ export default defineEventHandler(async (event) => {
 
 		const supabase = await serverSupabaseServiceRole(event)
 
-		// Delete user data first
 		await supabase.from('user_processed_songs').delete().eq('user_id', user.id)
 		await supabase.from('user_genre_playlists').delete().eq('user_id', user.id)
 		await supabase.from('profiles').delete().eq('id', user.id)
 
-		// Delete auth user
 		const { error } = await supabase.auth.admin.deleteUser(user.id)
 		if (error) {
 			console.error('Delete user error:', error)

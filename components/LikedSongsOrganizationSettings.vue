@@ -13,7 +13,6 @@ const formatGenreList = (genres: string[]): string => {
 }
 
 const syncLikedSongs = async () => {
-	console.log('🎵 Sync button clicked')
 	isLoading.value = true
 
 	try {
@@ -106,7 +105,6 @@ const syncLikedSongs = async () => {
 	}
 	finally {
 		isLoading.value = false
-		console.log('🏁 Sync process completed')
 	}
 }
 </script>

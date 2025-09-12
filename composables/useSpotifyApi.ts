@@ -17,7 +17,6 @@ export const useSpotifyApi = () => {
 			},
 		})
 
-		// In useSpotifyApi.ts, line ~20, update the error handling:
 		if (!response.ok) {
 			const errorBody = await response.text()
 			console.error(`Spotify API error details:`, errorBody)
@@ -31,7 +30,7 @@ export const useSpotifyApi = () => {
 		return await makeSpotifyCall('/me', token)
 	}
 
-	const getUserPlaylists = async (token: string, limit: number = 50, offset: number = 0) => { // maybe we dont need this
+	const getUserPlaylists = async (token: string, limit: number = 50, offset: number = 0) => {
 		return await makeSpotifyCall(`/me/playlists?limit=${limit}&offset=${offset}`, token)
 	}
 
@@ -40,8 +39,6 @@ export const useSpotifyApi = () => {
 	}
 
 	const getUserLikedSongs = async (token: string) => {
-		console.log('📦 Starting to fetch ALL liked songs...')
-
 		const allLikedSongs: any[] = []
 		let offset = 0
 		const limit = 50 // Maximum allowed by Spotify per request
@@ -65,7 +62,6 @@ export const useSpotifyApi = () => {
 			}
 		}
 
-		console.log(`✅ Fetched ${allLikedSongs.length} liked songs total`)
 		return {
 			items: allLikedSongs,
 			total: allLikedSongs.length,
@@ -73,7 +69,7 @@ export const useSpotifyApi = () => {
 	}
 
 	const getMultipleArtistsInfo = async (artistIds: string[], token: string) => {
-		const limitedIds = artistIds.slice(0, 50) // Spotify's max limit
+		const limitedIds = artistIds.slice(0, 50)
 		const idsParam = limitedIds.join(',')
 
 		return await makeSpotifyCall(`/artists?ids=${idsParam}`, token)
@@ -129,7 +125,6 @@ export const useSpotifyApi = () => {
 
 				tracksAdded += batch.length
 				batches++
-				console.log(`✅ Added batch ${batches}: ${batch.length} tracks to playlist`)
 			}
 			catch (error) {
 				console.error(`❌ Failed to add batch ${batches + 1} to playlist:`, error)
@@ -163,7 +158,6 @@ export const useSpotifyApi = () => {
 				throw new Error(`Failed to add playlist image: ${response.status} - ${errorBody}`)
 			}
 
-			console.log(`✅ Successfully added cover image to playlist ${playlistId}`)
 			return true
 		}
 		catch (error) {

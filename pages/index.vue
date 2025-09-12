@@ -6,7 +6,6 @@
 </template>
 
 <script setup lang="ts">
-// Page metadata for SEO
 useHead({
 	title: 'Organizify - Keep your musice neat',
 	meta: [
