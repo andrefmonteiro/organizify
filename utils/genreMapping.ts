@@ -14,7 +14,7 @@ export const GENRE_TO_COLUMN_MAP: Record<string, string> = {
 	'Other': 'other_playlist_id',
 }
 
-const GENRE_IMAGE_MAPPING = {
+export const GENRE_IMAGE_MAPPING = {
 	'Pop': 'pop-cover.jpg',
 	'Rock': 'rock-cover.jpg',
 	'Jazz': 'jazz-cover.jpg',
@@ -41,6 +41,10 @@ export function getPlaylistColumnForGenre(genre: string): string {
 		return 'other_playlist_id'
 	}
 	return columnName
+}
+
+export const getImageFileNameForGenre = (genre: string): string => {
+	return GENRE_IMAGE_MAPPING[genre as keyof typeof GENRE_IMAGE_MAPPING] || 'other-cover.jpg'
 }
 
 export interface UserGenrePlaylist {

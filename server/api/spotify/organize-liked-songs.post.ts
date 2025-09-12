@@ -4,6 +4,7 @@ import { serverSupabaseSession, serverSupabaseClient, serverSupabaseUser } from 
 import { useSpotifyApi } from '~/composables/useSpotifyApi'
 import { useGenreOrganization } from '~/composables/useGenreOrganization'
 import { useDatabaseOperations } from '~/composables/useDatabaseOperations'
+import { getImageFileNameForGenre } from '~/utils/genreMapping'
 
 export default defineEventHandler(async (event) => {
 	try {
@@ -37,7 +38,7 @@ export default defineEventHandler(async (event) => {
 		}
 
 		// Step 2: Initialize composables with proper context
-		const { getUserLikedSongs, getUserProfile, createPlaylist, addTracksToPlaylist } = useSpotifyApi()
+		const { getUserLikedSongs, getUserProfile, createPlaylist, addTracksToPlaylist, addImageToPlaylist } = useSpotifyApi()
 		const { organizeByGenre } = useGenreOrganization(session.provider_token)
 		const {
 			getUnprocessedSongs,
@@ -128,8 +129,11 @@ export default defineEventHandler(async (event) => {
 					// Store the new playlist ID in database
 					await storePlaylistId(user.id, columnName, playlistId)
 					console.log(`💾 Stored playlist ID in database`)
-
 					playlistsCreated++
+					// add image cover to the playlist
+					const imageFileName = getImageFileNameForGenre(genre)
+					const imageAdded = await addImageToPlaylist(playlistId, imageFileName, session.provider_token)
+					if (imageAdded) console.log(`Added cover image: ${imageFileName}`)
 				}
 
 				const trackIds = songs.map((item: any) => {

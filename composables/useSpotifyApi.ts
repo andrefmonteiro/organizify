@@ -145,7 +145,7 @@ export const useSpotifyApi = () => {
 		token: string,
 	) => {
 		try {
-			const imagePath = join(process.cwd(), 'public', 'cover_images, genreImageFileName')
+			const imagePath = join(process.cwd(), 'public', 'cover_images', genreImageFileName)
 			const imageBuffer = await readFile(imagePath)
 			const base64Image = imageBuffer.toString('base64')
 
