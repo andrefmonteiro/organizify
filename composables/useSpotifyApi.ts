@@ -1,4 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { readFile } from 'fs/promises'
+import { join } from 'path'
 
 export const useSpotifyApi = () => {
 	const makeSpotifyCall = async (
@@ -137,6 +139,38 @@ export const useSpotifyApi = () => {
 		return { tracksAdded, batches, totalRequested: trackIds.length }
 	}
 
+	const addImageToPlaylist = async (
+		playlistId: string,
+		genreImageFileName: string,
+		token: string,
+	) => {
+		try {
+			const imagePath = join(process.cwd(), 'public', 'cover_images, genreImageFileName')
+			const imageBuffer = await readFile(imagePath)
+			const base64Image = imageBuffer.toString('base64')
+
+			const response = await fetch(`https://api.spotify.com/v1/playlists/${playlistId}/images`, {
+				method: 'PUT',
+				headers: {
+					'Authorization': `Bearer ${token}`,
+					'Content-Type': 'image/jpeg',
+				},
+				body: base64Image,
+			})
+
+			if (!response.ok) {
+				const errorBody = await response.text()
+				throw new Error(`Failed to add playlist image: ${response.status} - ${errorBody}`)
+			}
+
+			console.log(`✅ Successfully added cover image to playlist ${playlistId}`)
+			return true
+		}
+		catch (error) {
+			console.error(`❌ Failed to add playlist cover:`, error)
+			return false
+		}
+	}
 	return {
 
 		getUserProfile,
@@ -148,5 +182,6 @@ export const useSpotifyApi = () => {
 
 		createPlaylist,
 		addTracksToPlaylist,
+		addImageToPlaylist,
 	}
 }
