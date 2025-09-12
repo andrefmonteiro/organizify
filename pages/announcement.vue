@@ -1,3 +1,25 @@
+<script setup>
+const email = ref('')
+const isSubmitting = ref(false)
+const message = ref('')
+
+const submitEmail = async () => {
+	isSubmitting.value = true
+	try {
+		await $fetch('/api/request-access', {
+			method: 'POST',
+			body: { email: email.value },
+		})
+		message.value = 'Thanks! We\'ll contact you soon.'
+		email.value = ''
+	}
+	catch {
+		message.value = 'Please try again.'
+	}
+	isSubmitting.value = false
+}
+</script>
+
 <template>
 	<div class="max-w-4xl mx-auto mt-12 p-8">
 		<h1 class="text-3xl font-bold mb-8 text-text-primary">
@@ -33,8 +55,44 @@
 				</p>
 
 				<p class="text-text-primary">
-					The good news for you: there are a few seats left. If you'd like access, we need to manually add you. You can leave your email and we'll let you once you can start using the app.
+					The good news: there are a few seats left.
 				</p>
+				<p>
+					If you'd like access, we need to manually add you. You can leave your email and we'll let you once you can start using the app.
+				</p>
+				<div class="space-y-4 mt-8 p-6 bg-surface-muted rounded-lg">
+					<h3 class="text-lg font-semibold text-text-primary">
+						Request Access
+					</h3>
+
+					<form
+						class="space-y-4"
+						@submit.prevent="submitEmail"
+					>
+						<div class="flex gap-3">
+							<input
+								v-model="email"
+								type="email"
+								placeholder="Add your email here"
+								required
+								class="flex-1 px-3 py-2 border border-border rounded-md bg-background text-text-primary"
+							>
+							<Button
+								type="submit"
+								:disabled="isSubmitting"
+								class="cursor-pointer"
+							>
+								{{ isSubmitting ? 'Submitting...' : 'Submit' }}
+							</Button>
+						</div>
+						<p
+							v-if="message"
+							class="text-sm text-text-secondary"
+						>
+							{{ message }}
+						</p>
+					</form>
+				</div>
 			</div>
 		</div>
 	</div>
