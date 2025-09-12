@@ -1,21 +1,24 @@
 <script setup lang="ts">
-import { TriangleAlert } from 'lucide-vue-next'
 import { Toaster } from '@/components/ui/sonner'
 import 'vue-sonner/style.css'
+
+const isOnAnnouncement = computed(() => useRoute().path == '/announcement')
 </script>
 
 <template>
-	<Alert
-		variant="warning"
+	<div
+		v-if="!isOnAnnouncement"
+		class="bg-surface-green min-h-10 flex justify-center items-center"
 	>
-		<TriangleAlert class="w-4 h-4" />
-		<AlertTitle class="text-base font-bold">
-			Under renovation
-		</AlertTitle>
-		<AlertDescription class="mt-2 text-base">
-			We're moving some things around. No need to panic if you can't automate your Spotify organization for now.
-		</AlertDescription>
-	</Alert>
+		<p class="ml-6 text-sm text-primary">
+			Due to Spotify's restrictions, Organizify is <span class="font-semibold">
+				invite-only:
+			</span> <NuxtLink
+				to="/announcement"
+				class="underline underline-offset-4"
+			>read why.</NuxtLink>
+		</p>
+	</div>
 	<NuxtLayout>
 		<NuxtPage />
 		<ClientOnly>
