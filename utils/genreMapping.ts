@@ -13,6 +13,22 @@ export const GENRE_TO_COLUMN_MAP: Record<string, string> = {
 	'Downtempo': 'downtempo_playlist_id',
 	'Other': 'other_playlist_id',
 }
+
+const GENRE_IMAGE_MAPPING = {
+	'Pop': 'pop-cover.jpg',
+	'Rock': 'rock-cover.jpg',
+	'Jazz': 'jazz-cover.jpg',
+	'Electronic': 'electronic-cover.jpg',
+	'Hip-Hop': 'hiphop-cover.jpg',
+	'R&B': 'randb-cover.jpg',
+	'Country': 'country-cover.jpg',
+	'Metal': 'metal-cover.jpg',
+	'Latin': 'latin-cover.jpg',
+	'Classical': 'classical-cover.jpg',
+	'Folk/Acoustic': 'folk-cover.jpg',
+	'Downtempo': 'downtempo-cover.jpg',
+	'Other': 'other-cover.jpg',
+}
 /**
  * Gets the database column name for a given genre
  * @param genre - The formatted genre name (e.g. "Hip-Hop")
