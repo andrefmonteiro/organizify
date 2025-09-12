@@ -2,7 +2,7 @@ import { fileURLToPath } from 'node:url'
 import tailwindcss from '@tailwindcss/vite'
 
 export default defineNuxtConfig({
-	modules: ['@nuxt/eslint', 'shadcn-nuxt', '@nuxtjs/supabase'],
+	modules: ['@nuxt/eslint', 'shadcn-nuxt', '@nuxtjs/supabase', '@nuxt/fonts'],
 	devtools: { enabled: true },
 	css: ['~/assets/css/tailwind.css'],
 	runtimeConfig: {
