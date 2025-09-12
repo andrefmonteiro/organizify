@@ -11,7 +11,7 @@
 			<div class="max-w-4xl mx-auto mt-16">
 				<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
 					<div class="text-center space-y-4">
-						<div class="w-12 h-12 mx-auto bg-brand-green-light rounded-full flex items-center justify-center text-primary-foreground font-bold text-xl">
+						<div class="w-12 h-12 mx-auto bg-brand-green rounded-full flex items-center justify-center text-primary-foreground font-bold text-xl">
 							1
 						</div>
 						<h3 class="text-lg font-semibold text-text-primary">
@@ -23,7 +23,7 @@
 					</div>
 
 					<div class="text-center space-y-4">
-						<div class="w-12 h-12 mx-auto bg-brand-green-light rounded-full flex items-center justify-center text-primary-foreground font-bold text-xl">
+						<div class="w-12 h-12 mx-auto bg-brand-green rounded-full flex items-center justify-center text-primary-foreground font-bold text-xl">
 							2
 						</div>
 						<h3 class="text-lg font-semibold text-text-primary">
@@ -35,7 +35,7 @@
 					</div>
 
 					<div class="text-center space-y-4">
-						<div class="w-12 h-12 mx-auto bg-brand-green-light rounded-full flex items-center justify-center text-primary-foreground font-bold text-xl">
+						<div class="w-12 h-12 mx-auto bg-brand-green rounded-full flex items-center justify-center text-primary-foreground font-bold text-xl">
 							3
 						</div>
 						<h3 class="text-lg font-semibold text-text-primary">
