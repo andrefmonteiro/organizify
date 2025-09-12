@@ -31,7 +31,7 @@ const userInitials = computed(() => {
 			as-child
 			class="cursor-pointer"
 		>
-			<Avatar>
+			<Avatar class="size-10">
 				<AvatarImage
 					:src="primaryAvatarSrc"
 					alt="user's avatar"
