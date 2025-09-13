@@ -8,7 +8,7 @@ const isOnAnnouncement = computed(() => useRoute().path == '/announcement')
 <template>
 	<div
 		v-if="!isOnAnnouncement"
-		class="bg-surface-green flex justify-center items-center"
+		class="bg-surface-green min-h-10 flex justify-center items-center"
 	>
 		<p class="ml-6 text-sm text-primary py-3">
 			Due to Spotify's restrictions, Organizify is <span class="font-semibold">

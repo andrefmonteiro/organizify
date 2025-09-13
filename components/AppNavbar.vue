@@ -16,7 +16,7 @@ const handleLogin = async () => {
 					to="/"
 				>
 					<div
-						class="text-2xl font-bold transition-opacity hover:opacity-80"
+						class="text-2xl transition-opacity font-display font-bold  hover:opacity-80"
 					>Organizify</div>
 				</NuxtLink>
 			</div>
@@ -24,7 +24,7 @@ const handleLogin = async () => {
 			<div class="flex items-center">
 				<Button
 					v-if="!isAuthenticated"
-					class="h-8 px-4 cursor-pointer"
+					class="h-8 px-4 cursor-pointer bg-brand-green hover:bg-brand-green-light"
 					@click="handleLogin"
 				>
 					Login
