@@ -13,7 +13,7 @@ Organizify analyzes your Spotify liked songs and automatically creates separate 
 3. Incremental Sync: Only processes new liked songs to avoid reprocessing your entire library
 4. Track Validation: Filters invalid tracks and handles edge cases
 
-Stack: Nuxt.js, Tailwind CSS, Supabase, Spotify Web API
+**Stack:** Nuxt.js, Tailwind CSS, Supabase, Spotify Web API
 
 Access
-Due to Spotify's API restrictions, Organizify is invite-only and limited to 25 users. Read about it and request access at organizify.app/announcement.
+Due to Spotify's API restrictions, Organizify is invite-only and limited to 25 users. Read about it and request access on the [announcement page.](organizify.app/announcement.)
