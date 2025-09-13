@@ -21,7 +21,7 @@ const submitEmail = async () => {
 </script>
 
 <template>
-	<div class="max-w-4xl mx-auto mt-12 p-8">
+	<div class="max-w-4xl mx-auto mt-12 px-2 md:px-8 overflow-x-hidden">
 		<h1 class="text-3xl font-bold mb-8 text-text-primary">
 			Why Organizify is invite-only
 		</h1>
@@ -45,7 +45,7 @@ const submitEmail = async () => {
 				</p>
 			</div>
 
-			<div class="space-y-4">
+			<div class="space-y-4 flex flex-col">
 				<h2 class="text-xl font-bold text-text-primary">
 					How This Affects Organizify
 				</h2>
@@ -60,22 +60,21 @@ const submitEmail = async () => {
 				<p>
 					If you'd like access, we need to manually add you. You can leave your email and we'll let you once you can start using the app.
 				</p>
-				<div class="space-y-4 mt-8 p-6 bg-brand-green-muted rounded-lg">
+				<div class="space-y-4 mt-8 p-6 bg-brand-green-muted rounded-lg md:w-xl self-center">
 					<h3 class="text-lg font-semibold text-text-primary">
 						Request Access
 					</h3>
 
 					<form
-						class="space-y-4"
 						@submit.prevent="submitEmail"
 					>
-						<div class="flex gap-3">
+						<div class="flex flex-col sm:flex-row gap-3">
 							<input
 								v-model="email"
 								type="email"
-								placeholder="Add your email here"
+								placeholder="your@email.com"
 								required
-								class="flex-1 px-3 py-2 border border-border rounded-md bg-background text-text-primary"
+								class="flex-1 px-6 py-2 border border-border rounded-md bg-background text-text-primary"
 							>
 							<Button
 								type="submit"
