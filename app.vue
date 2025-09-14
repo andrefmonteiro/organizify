@@ -2,12 +2,12 @@
 import { Toaster } from '@/components/ui/sonner'
 import 'vue-sonner/style.css'
 
-const isOnAnnouncement = computed(() => useRoute().path == '/announcement')
+const isOnHomePage = computed(() => useRoute().path == '/')
 </script>
 
 <template>
 	<div
-		v-if="!isOnAnnouncement"
+		v-if="isOnHomePage"
 		class="bg-surface-green min-h-10 flex justify-center items-center"
 	>
 		<p class="ml-6 text-sm text-primary py-3">

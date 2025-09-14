@@ -13,7 +13,7 @@ const handleDeleteAccount = async () => {
 <template>
 	<div class="w-full max-w-xl space-y-6">
 		<div>
-			<h2 class="mt-12 mb-4 text-xl font-medium">
+			<h2 class="mt-12 mb-4 text-xl font-semibold">
 				Account
 			</h2>
 
