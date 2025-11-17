@@ -1,18 +1,3 @@
-<script setup>
-import { useAuthActions } from '~/composables/useAuthActions'
-
-const { isAuthenticated, signInWithSpotify } = useAuthActions()
-
-const handleLogin = async () => {
-	if (!isAuthenticated.value) {
-		signInWithSpotify()
-	}
-	else {
-		navigateTo('/dashboard')
-	}
-}
-</script>
-
 <template>
 	<div class="relative isolate">
 		<div class="py-20 sm:py-24 lg:py-28">
@@ -33,9 +18,10 @@ const handleLogin = async () => {
 					<Button
 						size="lg"
 						class="px-8 cursor-pointer bg-brand-green hover:bg-brand-green-light"
-						@click="handleLogin"
 					>
-						Try it
+						<NuxtLink to="/announcement">
+							Try it
+						</NuxtLink>
 					</Button>
 
 					<Button
