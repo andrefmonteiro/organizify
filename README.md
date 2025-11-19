@@ -15,5 +15,6 @@ Organizify analyzes your Spotify liked songs and automatically creates separate 
 
 **Stack:** Nuxt.js, Tailwind CSS, Supabase, Spotify Web API
 
-Access
-Due to Spotify's API restrictions, Organizify is invite-only and limited to 25 users. Read about it and request access on the [announcement page.](organizify.app/announcement.)
+## Access
+Due to Spotify's API restrictions, Organizify is invite-only and limited to 25 users.  
+Read about it and request access on the [announcement page.](organizify.app/announcement.)
