@@ -17,4 +17,4 @@ Organizify analyzes your Spotify liked songs and automatically creates separate 
 
 ## Access
 Due to Spotify's API restrictions, Organizify is invite-only and limited to 25 users.  
-Read about it and request access on the [announcement page.](organizify.app/announcement.)
+Read about it and request access on the [announcement page.](organizify.app/announcement).
