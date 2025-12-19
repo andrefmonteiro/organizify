@@ -28,7 +28,10 @@ const submitEmail = async () => {
 
 		<div class="space-y-6">
 			<p class="text-text-primary">
-				In May 2025, Spotify changed their developer program, effectively ending public indie app development.
+				In May 2025, Spotify <a
+					class="underline underline-offset-3"
+					href="https://developer.spotify.com/blog/2025-04-15-updating-the-criteria-for-web-api-extended-access"
+				>changed their developer program, effectively ending public indie app development.</a>
 			</p>
 
 			<div class="space-y-4">
